@@ -17,19 +17,32 @@
   --danger:     0 38% 49%;
 }
 
+/* Warm evening dark theme — same clay/jade/copper soul, deeper tones. */
+.dark {
+  --background: 25 14% 9%;
+  --background-rgb: 34,28,24;
+  --surface:    28 12% 13%;
+  --surface-rgb:    43,37,32;
+  --clay:       28 10% 22%;
+  --clay-rgb:       62,54,47;
+  --foreground: 32 18% 90%;
+  --muted:      28 8% 60%;
+}
+
 @layer base {
   * { @apply border-clay/60; }
   html { @apply antialiased scroll-smooth; }
   body {
-    @apply text-foreground font-sans min-h-screen;
+    @apply text-foreground min-h-screen;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     background: rgb(var(--background-rgb));
   }
   h1, h2, h3, h4 {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: var(--font-display), Georgia, serif;
     @apply tracking-tight;
   }
   code, .mono, [data-balance] {
-    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
     font-feature-settings: 'tnum';
   }
 }

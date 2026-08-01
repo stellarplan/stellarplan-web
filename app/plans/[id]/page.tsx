@@ -95,8 +95,11 @@ export default function VaultDetailPage() {
       <BreakVaultModal
         open={breaking}
         purpose={vault.name}
-        onClose={() => { setBreaking(false); window.location.reload(); }}
-        onConfirm={() => api.breakVault(vault.id).then(() => {})}
+        onClose={async (success) => {
+          setBreaking(false);
+          if (success) setVault(await api.vault(vault.id));
+        }}
+        onConfirm={(password) => api.breakVault(vault.id, password).then(() => {})}
       />
     </>
   );

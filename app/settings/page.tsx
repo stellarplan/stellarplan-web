@@ -4,12 +4,27 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api, User, Notification, setTokens } from '@/lib/api';
 import { formatDate } from '@/lib/format';
-import { LogOut, Bell, Moon, Sun } from 'lucide-react';
+import { LogOut, Moon, Sun } from 'lucide-react';
+
+function useTheme() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    setDark(document.documentElement.classList.contains('dark'));
+  }, []);
+  const toggle = () => {
+    const next = !dark;
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('sp_theme', next ? 'dark' : 'light');
+    setDark(next);
+  };
+  return { dark, toggle };
+}
 
 export default function SettingsPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const { dark, toggle } = useTheme();
 
   useEffect(() => {
     api.me().then(setUser);
@@ -67,6 +82,21 @@ export default function SettingsPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* theme (PRD Doc 4 — Profile contains Theme) */}
+      <section className="card mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-sm text-muted uppercase tracking-wide font-semibold">Theme</h2>
+          <p className="text-sm text-muted mt-1">{dark ? 'Evening (dark)' : 'Moon Sand (light)'}</p>
+        </div>
+        <button
+          onClick={toggle}
+          className="btn-ghost !p-3"
+          aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
+        >
+          {dark ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
       </section>
 
       {/* member since */}

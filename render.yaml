@@ -1,0 +1,9 @@
+# Render deployment blueprint for StellarPlan Web (static site)
+services:
+  - type: static
+    name: stellarplan-web
+    buildCommand: npm install && npm run build
+    staticPublishPath: .next
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false # set to your deployed API, e.g. https://stellarplan-api.onrender.com/api/v1

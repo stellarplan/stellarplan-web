@@ -142,6 +142,35 @@ export default function DashboardPage() {
         </section>
       </FadeIn>
 
+      {/* ------------------------------------------------ protected progress */}
+      {balances.planned > 0 && (
+        <FadeIn>
+          <section className="max-w-2xl mx-auto px-5 mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm font-medium">
+                {Math.min(100, Math.round((balances.protected / balances.planned) * 100))}% Protected
+              </p>
+              <p className="text-muted text-xs">
+                {formatMoney(balances.protected)} of {formatMoney(balances.planned)} planned
+              </p>
+            </div>
+            <div
+              className="h-2.5 bg-clay/70 rounded-full overflow-hidden"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.min(100, Math.round((balances.protected / balances.planned) * 100))}
+              aria-label="Share of this month's plan already secured"
+            >
+              <div
+                className="h-full rounded-full bg-jade transition-all duration-700"
+                style={{ width: `${Math.min(100, (balances.protected / balances.planned) * 100)}%` }}
+              />
+            </div>
+          </section>
+        </FadeIn>
+      )}
+
       {/* ------------------------------------------------ vault grid */}
       {activeVaults.length > 0 && (
         <section className="max-w-2xl mx-auto px-5 mb-8">

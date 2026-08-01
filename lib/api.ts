@@ -181,8 +181,8 @@ export const api = {
   /* vaults */
   vaults: () => raw<Vault[]>('/vaults'),
   vault: (id: string) => raw<Vault>(`/vaults/${id}`),
-  breakVault: (vaultId: string) =>
-    raw<Vault>('/vaults/break', { method: 'POST', body: JSON.stringify({ vaultId }) }),
+  breakVault: (vaultId: string, password: string) =>
+    raw<Vault>('/vaults/break', { method: 'POST', body: JSON.stringify({ vaultId, password }) }),
 
   /* allocations */
   detectAllocations: (walletAddress?: string) =>

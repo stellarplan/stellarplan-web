@@ -9,20 +9,40 @@ export default function OnboardingPage() {
   const [address, setAddress] = useState('');
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState('');
+  const [freighter, setFreighter] = useState<{ isConnected: boolean; getPublicKey(): Promise<string> } | null>(null);
 
   // If the user already has a wallet linked (returning user), skip onboarding.
   useEffect(() => {
     api.me().then((u) => {
       if (u.walletAddress) router.replace('/dashboard');
     }).catch(() => {});
+
+    // One-tap connect when the Freighter extension is installed.
+    const w = window as any;
+    if (w.freighter?.isConnected) setFreighter(w.freighter);
   }, [router]);
+
+  async function connectWithFreighter() {
+    if (!freighter) return;
+    setConnecting(true);
+    setError('');
+    try {
+      const pubkey = await freighter.getPublicKey();
+      await api.connectWallet('FREIGHTER', pubkey);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message ?? 'Freighter connection was declined.');
+    } finally {
+      setConnecting(false);
+    }
+  }
 
   async function connect(e: React.FormEvent) {
     e.preventDefault();
     setConnecting(true);
     setError('');
     try {
-      await api.connectWallet('FREIGHTER', address.trim());
+      await api.connectWallet('UNKNOWN', address.trim());
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message ?? 'Could not connect wallet.');
@@ -44,6 +64,12 @@ export default function OnboardingPage() {
             and automatically sort them into your plans.
           </p>
         </header>
+
+        {freighter && (
+          <button className="btn-primary w-full" onClick={connectWithFreighter} disabled={connecting}>
+            {connecting ? 'Connecting…' : '⚡ Connect with Freighter'}
+          </button>
+        )}
 
         <form onSubmit={connect} className="card space-y-4">
           <div>
