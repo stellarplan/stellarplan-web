@@ -71,7 +71,7 @@ export interface Notification {
 
 export interface Dashboard {
   user: Pick<User, 'id' | 'name' | 'walletAddress' | 'vaultContractId'>;
-  balances: { protected: number; planned: number; releasedThisMonth: number };
+  balances: { protected: number; planned: number; releasedThisMonth: number; onChainAvailable: number };
   plans: Plan[];
   vaults: Vault[];
   recentTransactions: Transaction[];
