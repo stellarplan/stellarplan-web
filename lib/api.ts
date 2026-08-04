@@ -112,7 +112,6 @@ async function raw<T>(path: string, init: RequestInit = {}, auth = true): Promis
     let res = await fetch(`${API}${path}`, { ...init, headers });
 
     if (res.status === 401 && tokens?.refreshToken) {
-      // try refreshing once, then retry
       const refreshed = await fetch(`${API}/auth/refresh`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -159,6 +158,8 @@ export const api = {
     raw<Tokens>('/auth/register', { method: 'POST', body: JSON.stringify({ email, password, name }) }, false),
   login: (email: string, password: string) =>
     raw<Tokens>('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }, false),
+  loginWithWallet: (walletAddress: string, walletId = 'FREIGHTER') =>
+    raw<Tokens>('/auth/wallet', { method: 'POST', body: JSON.stringify({ walletAddress, walletId }) }, false),
   logout: () => raw<{ ok: true }>('/auth/logout', { method: 'POST' }),
   me: () => raw<User>('/auth/me'),
 
@@ -181,8 +182,8 @@ export const api = {
   /* vaults */
   vaults: () => raw<Vault[]>('/vaults'),
   vault: (id: string) => raw<Vault>(`/vaults/${id}`),
-  breakVault: (vaultId: string, password: string) =>
-    raw<Vault>('/vaults/break', { method: 'POST', body: JSON.stringify({ vaultId, password }) }),
+  breakVault: (vaultId: string, password?: string) =>
+    raw<Vault>('/vaults/break', { method: 'POST', body: JSON.stringify({ vaultId, password: password ?? 'wallet_auth' }) }),
 
   /* allocations */
   detectAllocations: (walletAddress?: string) =>
