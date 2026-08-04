@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Plan } from '@/lib/api';
 import { formatMoney } from '@/lib/format';
-import { Lock, Sparkles, CheckCircle2, ArrowDownRight } from 'lucide-react';
+import { Lock, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export interface AllocationAnimationProps {
   salary: number;
@@ -16,9 +16,7 @@ export function AllocationAnimation({ salary, plans, onComplete }: AllocationAni
   const [phase, setPhase] = useState<'receive' | 'allocate' | 'done'>('receive');
 
   useEffect(() => {
-    // Phase 1: salary received, 1.4s bounce
     const t1 = setTimeout(() => setPhase('allocate'), 1_400);
-    // Phase 2: money splits into plans, 350ms between each
     const t2 = setTimeout(() => {
       setPhase('done');
       setTimeout(onComplete, 1_200);
@@ -27,12 +25,14 @@ export function AllocationAnimation({ salary, plans, onComplete }: AllocationAni
   }, [plans.length, onComplete]);
 
   return (
-    <div className="min-h-[60vh] w-full max-w-md mx-auto flex flex-col items-center justify-center gap-8 px-4 text-center relative overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute w-72 h-72 bg-jade/20 rounded-full blur-3xl -top-10 animate-pulse pointer-events-none" />
-      <div className="absolute w-60 h-60 bg-copper/20 rounded-full blur-3xl -bottom-10 pointer-events-none" />
+    <div className="min-h-[60vh] w-full max-w-sm mx-auto flex flex-col items-center justify-center gap-8 px-4 text-center relative overflow-hidden">
+      {/* Ambient glows */}
+      <div className="absolute w-80 h-80 rounded-full -top-20 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)', filter: 'blur(30px)' }} />
+      <div className="absolute w-72 h-72 rounded-full -bottom-20 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.14) 0%, transparent 70%)', filter: 'blur(30px)' }} />
 
-      {/* Main Income Orb */}
+      {/* Receive phase */}
       <AnimatePresence mode="wait">
         {phase === 'receive' && (
           <motion.div
@@ -41,73 +41,74 @@ export function AllocationAnimation({ salary, plans, onComplete }: AllocationAni
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: -40 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-            className="card !bg-surface/95 border-2 border-jade/40 p-8 shadow-2xl glow-jade max-w-xs w-full flex flex-col items-center"
+            className="rounded-2xl p-8 flex flex-col items-center max-w-xs w-full shadow-2xl"
+            style={{ background: 'rgba(14,20,32,0.95)', border: '1px solid rgba(59,130,246,0.3)', boxShadow: '0 0 60px rgba(59,130,246,0.15)' }}
           >
             <motion.div
               animate={{ rotate: [0, -10, 10, 0], scale: [1, 1.1, 1] }}
               transition={{ repeat: Infinity, duration: 1.8 }}
-              className="w-16 h-16 rounded-full bg-jade/15 grid place-items-center text-4xl mb-3 shadow-inner"
-            >
+              className="w-16 h-16 rounded-full grid place-items-center text-4xl mb-4"
+              style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.2)' }}>
               💵
             </motion.div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-jade uppercase tracking-wider bg-jade/10 px-3 py-1 rounded-full mb-2">
-              <Sparkles size={13} /> Income Detected
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3"
+              style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.25)', color: 'hsl(217,91%,60%)' }}>
+              <Sparkles size={12} /> Salary Detected
             </div>
-            <p className="text-4xl font-extrabold tracking-tight text-foreground font-mono" data-balance>
+            <p className="text-4xl font-bold tracking-tight mb-1" data-balance
+              style={{ color: 'hsl(228,60%,93%)', fontFamily: 'var(--font-mono)' }}>
               +{formatMoney(salary || 2500)}
             </p>
-            <p className="text-muted text-xs font-medium mt-1">Directing into monthly vaults...</p>
+            <p className="text-sm" style={{ color: 'hsl(222,22%,50%)' }}>Directing into smart vaults…</p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Allocation Stream */}
+      {/* Allocation stream */}
       {phase !== 'receive' && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="w-full space-y-3 z-10"
-        >
-          <div className="flex items-center justify-between px-2 mb-2">
-            <span className="text-xs font-semibold text-muted uppercase tracking-wider">Securing Salary into Vaults</span>
-            <span className="text-xs font-mono text-jade font-bold">{plans.length} Plans Active</span>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full space-y-3 z-10">
+          <div className="flex items-center justify-between px-2 mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'hsl(222,22%,50%)' }}>Securing Salary into Vaults</span>
+            <span className="text-xs font-mono font-bold" style={{ color: 'hsl(217,91%,60%)', fontFamily: 'var(--font-mono)' }}>{plans.length} Plans Active</span>
           </div>
 
           <div className="space-y-2.5">
             {plans.map((plan, i) => (
               <motion.div
                 key={plan.id}
-                initial={{ x: -60, opacity: 0, scale: 0.9 }}
+                initial={{ x: -60, opacity: 0, scale: 0.92 }}
                 animate={{ x: 0, opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.28, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="card !py-3.5 !px-4 flex items-center justify-between border-clay/60 bg-surface/90 shadow-md hover:border-jade/50 transition-colors"
+                className="rounded-2xl px-4 py-3.5 flex items-center justify-between"
+                style={{ background: 'rgba(14,20,32,0.9)', border: '1px solid rgba(30,45,69,0.8)' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-clay/50 grid place-items-center text-xl shadow-inner">
+                  <div className="w-10 h-10 rounded-xl grid place-items-center text-xl"
+                    style={{ background: 'rgba(22,30,48,0.9)', border: '1px solid rgba(30,45,69,0.8)' }}>
                     {plan.icon ?? '📦'}
                   </div>
                   <div className="text-left">
-                    <p className="font-bold text-sm text-foreground">{plan.name}</p>
-                    <p className="text-[11px] text-muted capitalize">{plan.category}</p>
+                    <p className="font-bold text-sm" style={{ color: 'hsl(228,60%,93%)' }}>{plan.name}</p>
+                    <p className="text-xs capitalize" style={{ color: 'hsl(222,22%,50%)' }}>{plan.category}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <div className="text-right">
-                    <p className="font-mono text-sm font-bold text-jade">
+                    <p className="font-mono text-sm font-bold" style={{ color: 'hsl(217,91%,60%)', fontFamily: 'var(--font-mono)' }}>
                       {formatMoney(Number(plan.amount))}
                     </p>
-                    <span className="text-[10px] text-copper-dark font-medium inline-flex items-center gap-0.5">
-                      <Lock size={10} /> Time-Locked
+                    <span className="text-[10px] font-bold inline-flex items-center gap-0.5" style={{ color: 'hsl(38,92%,50%)' }}>
+                      <Lock size={9} /> Locked
                     </span>
                   </div>
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: i * 0.28 + 0.2, type: 'spring' }}
-                    className="w-7 h-7 rounded-full bg-copper/15 text-copper-dark grid place-items-center"
-                  >
-                    <Lock size={13} />
+                    className="w-7 h-7 rounded-full grid place-items-center"
+                    style={{ background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.25)' }}>
+                    <Lock size={13} style={{ color: 'hsl(217,91%,60%)' }} />
                   </motion.div>
                 </div>
               </motion.div>
@@ -116,15 +117,15 @@ export function AllocationAnimation({ salary, plans, onComplete }: AllocationAni
         </motion.div>
       )}
 
-      {/* Completion Confirmation */}
+      {/* Done */}
       {phase === 'done' && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="flex items-center gap-2 text-success font-semibold text-sm bg-success/10 border border-success/30 px-5 py-2.5 rounded-full shadow-sm"
-        >
+          className="inline-flex items-center gap-2 text-sm font-bold px-5 py-3 rounded-full"
+          style={{ background: 'rgba(6,182,212,0.12)', border: '1px solid rgba(6,182,212,0.3)', color: 'hsl(189,95%,43%)' }}>
           <CheckCircle2 size={18} />
-          <span>All essential monthly expenses secured and locked!</span>
+          All monthly expenses secured and locked!
         </motion.div>
       )}
     </div>
