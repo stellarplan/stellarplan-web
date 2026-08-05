@@ -2,74 +2,95 @@
 
 import { useEffect, useState } from 'react';
 import { api, Transaction } from '@/lib/api';
-import { formatRelative, formatMoney } from '@/lib/format';
+import { formatDate, formatMoney } from '@/lib/format';
 import { FadeIn } from '@/components/common/FadeIn';
 
-const TYPE_META: Record<Transaction['type'], { icon: string; label: string; sign: '+' | '-' | ''; color: string }> = {
-  SALARY_DEPOSIT:   { icon: '💵', label: 'Salary received',      sign: '+', color: 'hsl(189,95%,43%)' },
-  ALLOCATION:       { icon: '🔀', label: 'Allocated to plan',    sign: '-', color: 'hsl(228,60%,93%)' },
-  RELEASE:          { icon: '🔓', label: 'Funds unlocked',       sign: '+', color: 'hsl(189,95%,43%)' },
-  EARLY_WITHDRAWAL: { icon: '⚡', label: 'Early withdrawal',     sign: '-', color: 'hsl(38,92%,50%)' },
-  DEPOSIT:          { icon: '📥', label: 'Deposit',              sign: '+', color: 'hsl(189,95%,43%)' },
+const TYPE_ICONS: Record<Transaction['type'], { icon: string; color: string }> = {
+  SALARY_DEPOSIT:    { icon: '💵', color: '#10B981' },
+  ALLOCATION:        { icon: '🔀', color: '#A855F7' },
+  RELEASE:           { icon: '🔓', color: '#10B981' },
+  EARLY_WITHDRAWAL:  { icon: '⚡', color: '#F43F5E' },
+  DEPOSIT:           { icon: '📥', color: '#10B981' },
 };
 
 export default function ActivityPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [txs, setTxs] = useState<Transaction[]>([]);
+  const [filter, setFilter] = useState<string>('ALL');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.transactions(50).then(setTransactions).catch(console.error).finally(() => setLoading(false));
+    api.transactions(50).then(setTxs).catch(console.error).finally(() => setLoading(false));
   }, []);
 
+  const filtered = txs.filter((t) => filter === 'ALL' || t.type === filter);
+
   return (
-    <main className="min-h-screen pb-24 max-w-2xl mx-auto px-5 pt-10">
-      {/* Header */}
-      <h1 className="mb-1" style={{ fontSize: '2rem', fontWeight: 700, letterSpacing: '-0.03em', color: 'hsl(228,60%,93%)', fontFamily: 'var(--font-display)' }}>Activity</h1>
-      <p className="mb-8 text-sm" style={{ color: 'hsl(222,22%,50%)' }}>Everything that's happened with your money.</p>
+    <main className="min-h-screen pb-24 md:pb-8 max-w-2xl mx-auto px-5 pt-10">
+      <h1 className="text-3xl font-bold mb-1 text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>Activity</h1>
+      <p className="mb-8 text-sm text-[#A1A1AA]">Audit trail of salary deposits, allocations, and releases.</p>
 
-      {/* Loading */}
+      {/* Filter Chips */}
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
+        {['ALL', 'SALARY_DEPOSIT', 'ALLOCATION', 'RELEASE', 'EARLY_WITHDRAWAL'].map((t) => (
+          <button key={t} id={`tx-filter-${t.toLowerCase()}`} onClick={() => setFilter(t)}
+            className="text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all duration-200"
+            style={filter === t ? {
+              background: 'rgba(16,185,129,0.15)',
+              border: '1px solid #10B981',
+              color: '#10B981',
+            } : {
+              background: '#141519',
+              border: '1px solid #2B2C33',
+              color: '#A1A1AA',
+            }}>
+            {t === 'ALL' ? 'All Activity' : t.replace('_', ' ')}
+          </button>
+        ))}
+      </div>
+
       {loading && (
-        <div className="flex items-center gap-3 py-8" style={{ color: 'hsl(222,22%,50%)' }}>
-          <div className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(59,130,246,0.3)', borderTopColor: 'hsl(217,91%,60%)' }} />
-          <span className="text-sm">Loading activity…</span>
+        <div className="flex items-center gap-3 py-8 text-[#A1A1AA]">
+          <div className="w-4 h-4 rounded-full border-2 animate-spin border-emerald-500/30 border-t-emerald-500" />
+          <span className="text-sm">Loading activity log…</span>
         </div>
       )}
 
-      {/* Empty */}
-      {!loading && transactions.length === 0 && (
-        <div className="rounded-2xl text-center py-16 space-y-4"
-          style={{ background: 'rgba(14,20,32,0.7)', border: '1px solid rgba(30,45,69,0.7)' }}>
-          <div className="text-4xl">📝</div>
-          <p className="text-sm" style={{ color: 'hsl(222,22%,55%)' }}>No activity yet. Once you receive a salary, history will appear here.</p>
+      {!loading && filtered.length === 0 && (
+        <div className="rounded-2xl text-center py-16 space-y-2 bg-[#141519] border border-[#2B2C33]">
+          <div className="text-3xl">📜</div>
+          <p className="text-sm text-[#A1A1AA]">No activity recorded yet.</p>
         </div>
       )}
 
-      <FadeIn>
-        <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(14,20,32,0.8)', border: '1px solid rgba(30,45,69,0.8)' }}>
-          {transactions.map((t, i) => {
-            const meta = TYPE_META[t.type] ?? { icon: '📥', label: t.type, sign: '', color: 'hsl(228,60%,93%)' };
-            return (
-              <div key={t.id} className="flex items-center gap-4 px-5 py-4"
-                style={{ borderBottom: i < transactions.length - 1 ? '1px solid rgba(30,45,69,0.5)' : 'none' }}>
-                <div className="w-11 h-11 rounded-xl grid place-items-center text-xl flex-shrink-0"
-                  style={{ background: 'rgba(22,30,48,0.9)', border: '1px solid rgba(30,45,69,0.7)' }}>
-                  {meta.icon}
+      {!loading && filtered.length > 0 && (
+        <FadeIn>
+          <div className="rounded-2xl overflow-hidden bg-[#141519] border border-[#2B2C33]">
+            {filtered.map((tx, i) => {
+              const meta = TYPE_ICONS[tx.type] ?? { icon: '📄', color: '#A1A1AA' };
+              const positive = tx.type === 'SALARY_DEPOSIT' || tx.type === 'RELEASE' || tx.type === 'DEPOSIT';
+              return (
+                <div key={tx.id} className="flex items-center gap-4 px-5 py-4"
+                  style={{ borderBottom: i < filtered.length - 1 ? '1px solid #2B2C33' : 'none' }}>
+                  <div className="w-10 h-10 rounded-xl grid place-items-center text-lg flex-shrink-0 bg-[#1C1D22]">
+                    {meta.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm truncate text-[#FAFAFA]">{tx.description ?? tx.type}</p>
+                    <p className="text-xs text-[#71717A]">{formatDate(tx.createdAt)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-mono font-bold text-sm" data-balance
+                      style={{ color: positive ? '#10B981' : '#FAFAFA', fontFamily: 'var(--font-mono)' }}>
+                      {positive ? '+' : '−'}{formatMoney(tx.amount)}
+                    </p>
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#71717A]">USDC</span>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm" style={{ color: 'hsl(228,60%,93%)' }}>{t.description ?? meta.label}</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'hsl(222,22%,50%)' }}>{formatRelative(t.createdAt)}</p>
-                  {t.txHash && !t.txHash.startsWith('sim_') && (
-                    <p className="text-xs mt-1 font-mono truncate max-w-[200px]" style={{ color: 'hsl(217,91%,50%)', fontFamily: 'var(--font-mono)' }}>{t.txHash}</p>
-                  )}
-                </div>
-                <span className="font-mono font-bold text-sm" data-balance style={{ color: meta.color, fontFamily: 'var(--font-mono)' }}>
-                  {meta.sign}{formatMoney(t.amount)}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </FadeIn>
+              );
+            })}
+          </div>
+        </FadeIn>
+      )}
     </main>
   );
 }

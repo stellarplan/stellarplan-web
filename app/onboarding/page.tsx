@@ -45,14 +45,14 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#0C0D10' }}>
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-        className="max-w-md w-full space-y-7 rounded-3xl p-8 bg-zinc-900 border border-zinc-800 shadow-2xl">
+        className="max-w-md w-full space-y-7 rounded-3xl p-8 bg-[#141519] border border-[#2B2C33] shadow-2xl">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl grid place-items-center bg-emerald-500">
             <Star size={19} className="text-black fill-black" />
           </div>
           <div>
-            <h1 className="font-bold text-xl text-zinc-100" style={{ fontFamily: 'var(--font-display)' }}>Connect Freighter Wallet</h1>
-            <p className="text-xs text-zinc-400">Step 1 of 1: Connect your Stellar wallet</p>
+            <h1 className="font-bold text-xl text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>Connect Freighter Wallet</h1>
+            <p className="text-xs text-[#A1A1AA]">Step 1 of 1: Connect your Stellar wallet</p>
           </div>
         </div>
 
@@ -60,7 +60,7 @@ export default function OnboardingPage() {
           <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
             <Shield size={14} /> Non-Custodial Security
           </div>
-          <p className="text-xs text-zinc-400 leading-relaxed">
+          <p className="text-xs text-[#A1A1AA] leading-relaxed">
             StellarPlan uses Soroban smart contracts on Stellar. Connecting your wallet allows smart vaults to detect salary deposits automatically.
           </p>
         </div>
@@ -79,7 +79,7 @@ export default function OnboardingPage() {
         ) : (
           <form onSubmit={handleManualSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider block text-zinc-400">Stellar Public Key</label>
+              <label className="text-xs font-bold uppercase tracking-wider block text-[#A1A1AA]">Stellar Public Key</label>
               <input id="onboarding-pubkey-input" className="input text-xs font-mono" placeholder="G..."
                 value={address} onChange={(e) => setAddress(e.target.value)} required />
             </div>
@@ -90,7 +90,7 @@ export default function OnboardingPage() {
         )}
 
         <div className="pt-2 text-center">
-          <button type="button" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+          <button type="button" className="text-xs text-[#71717A] hover:text-[#FAFAFA] transition-colors"
             onClick={() => router.push('/dashboard')}>
             Skip for now (Demo mode)
           </button>

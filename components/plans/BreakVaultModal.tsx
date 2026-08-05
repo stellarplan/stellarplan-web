@@ -50,7 +50,7 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
       {/* Solid Dark Backdrop */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
+        className="absolute inset-0 bg-[#0C0D10]/90 backdrop-blur-md"
         onClick={dismissible ? () => onClose(false) : undefined}
       />
 
@@ -59,7 +59,7 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative max-w-md w-full p-6 md:p-8 space-y-6 z-10 rounded-2xl bg-slate-900 border border-rose-800/60 shadow-2xl"
+        className="relative max-w-md w-full p-6 md:p-8 space-y-6 z-10 rounded-2xl bg-[#141519] border border-rose-800/60 shadow-2xl"
         role="dialog" aria-modal="true" aria-label="Withdraw early"
       >
 
@@ -70,9 +70,9 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
               <div className="w-16 h-16 rounded-2xl grid place-items-center mx-auto bg-rose-950 border border-rose-800">
                 <AlertTriangle size={30} className="text-rose-400" />
               </div>
-              <h2 className="text-2xl font-bold text-slate-100" style={{ fontFamily: 'var(--font-display)' }}>Early Vault Release?</h2>
-              <p className="text-xs leading-relaxed max-w-xs mx-auto text-slate-400">
-                You are requesting early withdrawal for your <strong className="text-slate-200">{purpose}</strong> vault.
+              <h2 className="text-2xl font-bold text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>Early Vault Release?</h2>
+              <p className="text-xs leading-relaxed max-w-xs mx-auto text-[#A1A1AA]">
+                You are requesting early withdrawal for your <strong className="text-[#FAFAFA]">{purpose}</strong> vault.
                 This action breaks the smart contract lock before the designated payment date.
               </p>
             </div>
@@ -82,7 +82,7 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
             <div className="space-y-3">
               <button
                 id="freighter-confirm-break-btn"
-                className="btn-gold w-full py-3.5 rounded-xl font-bold flex items-center justify-center gap-2"
+                className="btn-primary w-full py-3.5 rounded-xl font-bold flex items-center justify-center gap-2"
                 onClick={() => setStep('countdown')}
               >
                 <Zap size={16} /> Confirm Release with Freighter Wallet
@@ -97,7 +97,7 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
           <div className="text-center space-y-5 py-4" aria-live="polite">
             <div className="relative w-32 h-32 mx-auto grid place-items-center">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                <path strokeWidth="3" stroke="#1E263E" fill="none"
+                <path strokeWidth="3" stroke="#2B2C33" fill="none"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path
                   strokeDasharray={`${pct}, 100`}
@@ -107,13 +107,13 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
-              <span className="absolute font-mono text-4xl font-extrabold text-slate-100">
+              <span className="absolute font-mono text-4xl font-extrabold text-[#FAFAFA]">
                 {seconds}
               </span>
             </div>
             <div className="space-y-1">
-              <p className="text-sm font-bold text-slate-100">Preparing Withdrawal Signature</p>
-              <p className="text-xs text-slate-400">Cooldown active to prevent accidental impulse spending.</p>
+              <p className="text-sm font-bold text-[#FAFAFA]">Preparing Withdrawal Signature</p>
+              <p className="text-xs text-[#A1A1AA]">Cooldown active to prevent accidental impulse spending.</p>
             </div>
           </div>
         )}
@@ -121,11 +121,11 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
         {/* DONE */}
         {step === 'done' && (
           <div className="text-center space-y-5 py-4">
-            <div className="w-16 h-16 rounded-2xl grid place-items-center mx-auto bg-cyan-950 border border-cyan-800 text-cyan-400">
+            <div className="w-16 h-16 rounded-2xl grid place-items-center mx-auto bg-emerald-950 border border-emerald-800 text-emerald-400">
               <CheckCircle2 size={32} />
             </div>
-            <h3 className="text-2xl font-bold text-slate-100" style={{ fontFamily: 'var(--font-display)' }}>Withdrawal Complete</h3>
-            <p className="text-xs leading-relaxed text-slate-400">
+            <h3 className="text-2xl font-bold text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>Withdrawal Complete</h3>
+            <p className="text-xs leading-relaxed text-[#A1A1AA]">
               Funds have been released back to your available balance.
             </p>
             <button id="return-to-dashboard-btn" className="btn-primary w-full py-3.5 rounded-xl" onClick={() => onClose(true)}>

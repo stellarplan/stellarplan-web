@@ -24,10 +24,10 @@ export function NavShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="md:flex min-h-screen bg-zinc-950">
+    <div className="md:flex min-h-screen bg-[#0C0D10]">
 
       {/* Sidebar (desktop) */}
-      <aside className="hidden md:flex w-60 flex-col sticky top-0 h-screen bg-zinc-900 border-r border-zinc-800">
+      <aside className="hidden md:flex w-60 flex-col sticky top-0 h-screen bg-[#141519] border-r border-[#2B2C33]">
 
         {/* Logo */}
         <div className="px-6 py-6 mb-2">
@@ -69,8 +69,8 @@ export function NavShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-zinc-800">
-          <p className="text-xs text-center text-zinc-500">Plan once. Get paid. Stay protected.</p>
+        <div className="px-6 py-5 border-t border-[#2B2C33]">
+          <p className="text-xs text-center text-[#71717A]">Plan once. Get paid. Stay protected.</p>
         </div>
       </aside>
 
@@ -78,7 +78,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
       <div className="flex-1 min-w-0">{children}</div>
 
       {/* Bottom nav (mobile) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-zinc-900 border-t border-zinc-800 pb-[env(safe-area-inset-bottom)]">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[#141519] border-t border-[#2B2C33] pb-[env(safe-area-inset-bottom)]">
         <div className="grid grid-cols-4">
           {BOTTOM_NAV.map(({ href, label, icon: Icon }) => {
             const active = pathname.startsWith(href);

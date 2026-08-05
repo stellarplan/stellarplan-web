@@ -65,7 +65,7 @@ export default function SignupPage() {
     <div className="min-h-screen flex flex-col md:flex-row" style={{ background: '#0C0D10' }}>
 
       {/* Left Branding */}
-      <div className="hidden md:flex md:w-[45%] p-12 flex-col justify-between relative bg-zinc-900 border-r border-zinc-800">
+      <div className="hidden md:flex md:w-[45%] p-12 flex-col justify-between relative bg-[#141519] border-r border-[#2B2C33]">
         <div className="relative z-10">
           <Link href="/" className="inline-flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl grid place-items-center bg-emerald-500">
@@ -89,7 +89,7 @@ export default function SignupPage() {
           </p>
         </div>
 
-        <div className="relative z-10 text-xs flex items-center gap-4 text-zinc-500">
+        <div className="relative z-10 text-xs flex items-center gap-4 text-[#71717A]">
           <span>© 2025 StellarPlan</span>
           <span>•</span>
           <span>Stellar Testnet</span>
@@ -110,11 +110,11 @@ export default function SignupPage() {
 
           <div>
             <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>Create Your Account</h1>
-            <p className="mt-1.5 text-sm text-zinc-400">Connect Freighter wallet or register credentials.</p>
+            <p className="mt-1.5 text-sm text-[#A1A1AA]">Connect Freighter wallet or register credentials.</p>
           </div>
 
           {/* Mode Tabs */}
-          <div className="flex rounded-xl p-1 bg-zinc-900 border border-zinc-800">
+          <div className="flex rounded-xl p-1 bg-[#141519] border border-[#2B2C33]">
             <button type="button" onClick={() => setTab('wallet')}
               className="flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-2"
               style={tab === 'wallet' ? { background: '#10B981', color: '#000' } : { color: '#A1A1AA' }}>
@@ -134,7 +134,7 @@ export default function SignupPage() {
           )}
 
           {tab === 'wallet' ? (
-            <div className="space-y-5 rounded-2xl p-8 bg-zinc-900 border border-zinc-800">
+            <div className="space-y-5 rounded-2xl p-8 bg-[#141519] border border-[#2B2C33]">
               {freighter ? (
                 <button id="freighter-signup-btn" onClick={handleFreighterAuth} disabled={busy}
                   className="btn-primary w-full py-4 text-sm font-bold flex items-center justify-center gap-2 rounded-xl">
@@ -143,21 +143,21 @@ export default function SignupPage() {
               ) : (
                 <div className="rounded-xl p-4 text-center space-y-2 bg-emerald-950/60 border border-emerald-800">
                   <p className="text-xs font-semibold text-emerald-400">Freighter Wallet Extension Not Detected</p>
-                  <p className="text-[11px] text-zinc-400">
+                  <p className="text-[11px] text-[#A1A1AA]">
                     Install Freighter extension or enter your public key below to sign up.
                   </p>
                 </div>
               )}
 
               <div className="relative flex py-1 items-center">
-                <div className="flex-grow border-t border-zinc-800" />
-                <span className="flex-shrink mx-3 text-[11px] font-bold uppercase tracking-wider text-zinc-500">or paste public key</span>
-                <div className="flex-grow border-t border-zinc-800" />
+                <div className="flex-grow border-t border-[#2B2C33]" />
+                <span className="flex-shrink mx-3 text-[11px] font-bold uppercase tracking-wider text-[#71717A]">or paste public key</span>
+                <div className="flex-grow border-t border-[#2B2C33]" />
               </div>
 
               <form onSubmit={handleKeyAuth} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider block text-zinc-400">Stellar Public Key</label>
+                  <label className="text-xs font-bold uppercase tracking-wider block text-[#A1A1AA]">Stellar Public Key</label>
                   <input id="wallet-key-signup-input" className="input text-xs font-mono" placeholder="G..." value={walletAddr}
                     onChange={(e) => setWalletAddr(e.target.value)} pattern="G[A-Z0-9]{55}" required />
                 </div>
@@ -167,17 +167,17 @@ export default function SignupPage() {
               </form>
             </div>
           ) : (
-            <form onSubmit={handleEmailSubmit} className="space-y-5 rounded-2xl p-8 bg-zinc-900 border border-zinc-800">
+            <form onSubmit={handleEmailSubmit} className="space-y-5 rounded-2xl p-8 bg-[#141519] border border-[#2B2C33]">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider block text-zinc-400">Your Name</label>
+                <label className="text-xs font-bold uppercase tracking-wider block text-[#A1A1AA]">Your Name</label>
                 <input className="input text-sm" placeholder="Alex Rivera" value={name} onChange={(e) => setName(e.target.value)} required />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider block text-zinc-400">Email Address</label>
+                <label className="text-xs font-bold uppercase tracking-wider block text-[#A1A1AA]">Email Address</label>
                 <input className="input text-sm" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider block text-zinc-400">Password</label>
+                <label className="text-xs font-bold uppercase tracking-wider block text-[#A1A1AA]">Password</label>
                 <input className="input text-sm" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
               </div>
               <button id="signup-submit" className="btn-primary w-full py-3.5 text-sm" disabled={busy}>
@@ -186,7 +186,7 @@ export default function SignupPage() {
             </form>
           )}
 
-          <p className="text-center text-xs text-zinc-500">
+          <p className="text-center text-xs text-[#71717A]">
             Already have an account?{' '}
             <Link href="/login" className="font-bold hover:underline text-emerald-400">Sign in</Link>
           </p>

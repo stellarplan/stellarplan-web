@@ -9,7 +9,7 @@ export default function LandingPage() {
     <div className="min-h-screen text-foreground flex flex-col selection:bg-emerald-500 selection:text-black overflow-x-hidden" style={{ background: '#0C0D10' }}>
 
       {/* NAVBAR */}
-      <header className="sticky top-0 z-50 border-b border-zinc-800" style={{ background: '#0C0D10' }}>
+      <header className="sticky top-0 z-50 border-b border-[#2B2C33]" style={{ background: '#0C0D10' }}>
         <div className="max-w-6xl mx-auto px-6 h-18 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-9 h-9 rounded-xl grid place-items-center bg-emerald-500">
@@ -89,7 +89,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs font-medium text-zinc-400"
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs font-medium text-[#A1A1AA]"
               >
                 <span className="flex items-center gap-2"><CheckCircle2 size={15} className="text-emerald-400" /> Non-Custodial Vaults</span>
                 <span className="flex items-center gap-2"><CheckCircle2 size={15} className="text-emerald-400" /> Instant Salary Detection</span>
@@ -102,26 +102,26 @@ export default function LandingPage() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="relative rounded-3xl p-6 space-y-5 bg-zinc-900 border border-zinc-800"
+                className="relative rounded-3xl p-6 space-y-5 bg-[#141519] border border-[#2B2C33]"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+                <div className="flex items-center justify-between pb-4 border-b border-[#2B2C33]">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl grid place-items-center bg-emerald-950 border border-emerald-800 text-emerald-400">
                       <Wallet size={19} />
                     </div>
                     <div>
-                      <p className="font-semibold text-sm text-zinc-100">Freighter Wallet</p>
-                      <p className="text-xs font-mono text-zinc-400">G...8F2A</p>
+                      <p className="font-semibold text-sm text-[#FAFAFA]">Freighter Wallet</p>
+                      <p className="text-xs font-mono text-[#A1A1AA]">G...8F2A</p>
                     </div>
                   </div>
                   <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800">Active</span>
                 </div>
 
                 {/* Balance */}
-                <div className="rounded-2xl p-4 bg-zinc-950 border border-zinc-800">
-                  <p className="text-xs font-bold uppercase tracking-wider mb-1 text-zinc-400">Salary Auto-Split Active</p>
-                  <p className="text-3xl font-bold font-mono text-zinc-100">$2,500.00 <span className="text-sm text-zinc-500">USDC</span></p>
+                <div className="rounded-2xl p-4 bg-[#1C1D22] border border-[#2B2C33]">
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1 text-[#A1A1AA]">Salary Auto-Split Active</p>
+                  <p className="text-3xl font-bold font-mono text-[#FAFAFA]">$2,500.00 <span className="text-sm text-[#71717A]">USDC</span></p>
                 </div>
 
                 {/* Vaults */}
@@ -131,10 +131,10 @@ export default function LandingPage() {
                     { emoji: '⚡', name: 'Electricity', amount: '$150.00', color: '#10B981' },
                     { emoji: '🛡️', name: 'Emergency Vault', amount: '$500.00', color: '#F43F5E' },
                   ].map((v) => (
-                    <div key={v.name} className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm bg-zinc-950 border border-zinc-800">
+                    <div key={v.name} className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm bg-[#1C1D22] border border-[#2B2C33]">
                       <div className="flex items-center gap-2.5">
                         <span className="text-base">{v.emoji}</span>
-                        <span className="font-semibold text-xs text-zinc-200">{v.name}</span>
+                        <span className="font-semibold text-xs text-[#FAFAFA]">{v.name}</span>
                       </div>
                       <span className="font-mono font-bold text-xs" style={{ color: v.color }}>{v.amount}</span>
                     </div>
@@ -152,7 +152,7 @@ export default function LandingPage() {
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="py-24 relative bg-zinc-950 border-t border-b border-zinc-800">
+      <section id="features" className="py-24 relative bg-[#0C0D10] border-t border-b border-[#2B2C33]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
             <h2 style={{ fontSize: '2.25rem', fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>
@@ -171,7 +171,7 @@ export default function LandingPage() {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="rounded-2xl p-8 space-y-5 bg-zinc-900 border border-zinc-800"
+                className="rounded-2xl p-8 space-y-5 bg-[#141519] border border-[#2B2C33]"
               >
                 <div className="w-12 h-12 rounded-2xl grid place-items-center bg-emerald-950 border border-emerald-800 text-emerald-400">
                   <Icon size={22} />
@@ -185,13 +185,13 @@ export default function LandingPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="mt-auto py-10 border-t border-zinc-800 bg-zinc-950">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-zinc-500">
+      <footer className="mt-auto py-10 border-t border-[#2B2C33] bg-[#0C0D10]">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-[#71717A]">
           <div className="flex items-center gap-3">
             <div className="w-7 h-7 rounded-lg grid place-items-center bg-emerald-500 text-black">
               <Star size={13} className="fill-black" />
             </div>
-            <span className="font-bold text-zinc-200">StellarPlan</span>
+            <span className="font-bold text-[#FAFAFA]">StellarPlan</span>
             <span>—</span>
             <span>Smart Contract Salary Protection</span>
           </div>
