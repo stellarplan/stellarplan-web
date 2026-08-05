@@ -1,9 +1,23 @@
-# Render deployment blueprint for StellarPlan Web (static site)
+# Render deployment blueprint for StellarPlan Web (Next.js standalone server)
+#
+# next.config.ts uses `output: 'standalone'`, which emits a self-contained Node
+# server at .next/standalone/server.js. Its static assets and public/ folder must
+# be copied alongside it. This is deployed as a Node web service (NOT a static
+# site) because the app is client-rendered and reads NEXT_PUBLIC_API_URL / API
+# data at runtime.
 services:
-  - type: static
+  - type: web
     name: stellarplan-web
-    buildCommand: npm install && npm run build
-    staticPublishPath: .next
+    runtime: node
+    plan: starter
+    buildCommand: >-
+      npm install &&
+      npm run build &&
+      cp -r .next/static .next/standalone/.next/static &&
+      (cp -r public .next/standalone/public 2>/dev/null || true)
+    startCommand: node .next/standalone/server.js
     envVars:
       - key: NEXT_PUBLIC_API_URL
         sync: false # set to your deployed API, e.g. https://stellarplan-api.onrender.com/api/v1
+      - key: PORT
+        value: 3000

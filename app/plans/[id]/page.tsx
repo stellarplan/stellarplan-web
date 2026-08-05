@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { api, Vault, VaultStatus } from '@/lib/api';
+import { signAndBreakVault } from '@/lib/freighter';
 import { formatMoney, formatDate, iconFor } from '@/lib/format';
 import { BreakVaultModal } from '@/components/plans/BreakVaultModal';
 import { ArrowLeft, Lock, Unlock, Zap, Calendar, ShieldCheck } from 'lucide-react';
@@ -132,7 +133,7 @@ export default function VaultDetailPage() {
           setBreaking(false);
           if (success) setVault(await api.vault(vault.id));
         }}
-        onConfirm={(password) => api.breakVault(vault.id, password).then(() => {})}
+        onConfirm={() => signAndBreakVault(vault.id).then(() => {})}
       />
     </>
   );

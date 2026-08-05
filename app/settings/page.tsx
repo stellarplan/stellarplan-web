@@ -69,7 +69,9 @@ export default function SettingsPage() {
           </div>
           <div>
             <p className="font-semibold text-[#FAFAFA]">{user.name}</p>
-            <p className="text-sm text-[#A1A1AA]">{user.email}</p>
+            <p className="text-sm font-mono text-[#A1A1AA]">
+              {user.walletAddress ? `${user.walletAddress.slice(0, 6)}…${user.walletAddress.slice(-6)}` : 'Wallet account'}
+            </p>
             <p className="text-xs mt-1 text-[#71717A]">Member since {formatDate(user.createdAt)}</p>
           </div>
         </div>

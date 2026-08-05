@@ -8,7 +8,7 @@ import { VaultCard } from '@/components/plans/VaultCard';
 import { AllocationAnimation } from '@/components/plans/AllocationAnimation';
 import { NumberTicker } from '@/components/common/NumberTicker';
 import { FadeIn } from '@/components/common/FadeIn';
-import { Plus, RefreshCw, Wallet, Zap, Shield, ArrowUpRight, Lock, CheckCircle2, Star } from 'lucide-react';
+import { Plus, RefreshCw, Wallet, Zap, Shield, ArrowUpRight, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function DashboardPage() {
@@ -29,11 +29,11 @@ export default function DashboardPage() {
     setScanning(true);
     try {
       const result = await api.detectAllocations();
-      if (result.paymentsProcessed > 0 || (result.vaults && result.vaults.length > 0)) setAllocating(true);
-      else setAllocating(true);
+      if (result.paymentsProcessed > 0) setAllocating(true);
       await loadDashboard();
-    } catch { setAllocating(true); }
-    finally { setScanning(false); }
+    } catch (err: any) {
+      setLoadError(err?.message ?? 'Scan failed');
+    } finally { setScanning(false); }
   }
 
   if (loadError) return (
@@ -94,18 +94,14 @@ export default function DashboardPage() {
   if (allocating) return (
     <main className="min-h-screen flex items-center justify-center" style={{ background: '#0C0D10' }}>
       <AllocationAnimation
-        salary={recentTransactions.find((t) => t.type === 'SALARY_DEPOSIT')?.amount
-          ? Number(recentTransactions.find((t) => t.type === 'SALARY_DEPOSIT')!.amount)
-          : 2500}
+        salary={Number(recentTransactions.find((t) => t.type === 'SALARY_DEPOSIT')?.amount ?? 0)}
         plans={plans}
         onComplete={() => { setAllocating(false); loadDashboard(); }}
       />
     </main>
   );
 
-  const available = balances.onChainAvailable > 0
-    ? balances.onChainAvailable
-    : Math.max(0, Number(recentTransactions.find((t) => t.type === 'SALARY_DEPOSIT')?.amount ?? 2500) - balances.protected);
+  const available = balances.onChainAvailable;
 
   const protectedPct = balances.planned > 0 ? Math.min(100, Math.round((balances.protected / balances.planned) * 100)) : 0;
 
@@ -131,7 +127,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Demo Simulator */}
+      {/* Scan for deposits */}
       <FadeIn>
         <div className="px-5 mb-6">
           <div className="rounded-2xl p-4 flex items-center justify-between gap-4 bg-emerald-950/40 border border-emerald-800/60">
@@ -140,13 +136,13 @@ export default function DashboardPage() {
                 <Zap size={19} />
               </div>
               <div>
-                <p className="font-bold text-xs uppercase tracking-wider text-[#FAFAFA]">Instant Evaluator Demo</p>
-                <p className="text-xs text-[#A1A1AA]">Simulate receiving monthly salary deposit ($2,500 USDC)</p>
+                <p className="font-bold text-xs uppercase tracking-wider text-[#FAFAFA]">Check for Salary</p>
+                <p className="text-xs text-[#A1A1AA]">Scan your wallet on Stellar for new incoming USDC to allocate.</p>
               </div>
             </div>
-            <button onClick={handleScan} disabled={scanning} id="simulate-deposit"
-              className="btn-primary text-xs !py-2 !px-4 flex-shrink-0 rounded-xl">
-              Simulate Deposit
+            <button onClick={handleScan} disabled={scanning} id="scan-deposits"
+              className="btn-primary text-xs !py-2 !px-4 flex-shrink-0 rounded-xl disabled:opacity-50">
+              {scanning ? 'Scanning…' : 'Scan Now'}
             </button>
           </div>
         </div>

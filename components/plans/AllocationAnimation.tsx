@@ -57,7 +57,7 @@ export function AllocationAnimation({ salary, plans, onComplete }: AllocationAni
             </div>
             <p className="text-4xl font-bold tracking-tight mb-1" data-balance
               style={{ color: '#FAFAFA', fontFamily: 'var(--font-mono)' }}>
-              +{formatMoney(salary || 2500)}
+              +{formatMoney(salary)}
             </p>
             <p className="text-sm" style={{ color: '#A1A1AA' }}>Directing into smart vaults…</p>
           </motion.div>

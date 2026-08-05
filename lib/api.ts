@@ -11,7 +11,6 @@ export type VaultStatus = (typeof VaultStatus)[keyof typeof VaultStatus];
 
 export interface User {
   id: string;
-  email: string;
   name: string;
   walletAddress: string | null;
   vaultContractId: string | null;
@@ -19,6 +18,9 @@ export interface User {
 }
 
 export interface Tokens { accessToken: string; refreshToken: string; }
+
+/** A challenge to be signed by the wallet (login or sensitive action). */
+export interface Challenge { message: string; nonce: string; }
 
 export interface Plan {
   id: string;
@@ -153,22 +155,20 @@ export class ApiError extends Error {
 /* Public API                                                          */
 /* ------------------------------------------------------------------ */
 export const api = {
-  /* auth */
-  register: (email: string, password: string, name: string) =>
-    raw<Tokens>('/auth/register', { method: 'POST', body: JSON.stringify({ email, password, name }) }, false),
-  login: (email: string, password: string) =>
-    raw<Tokens>('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }, false),
-  loginWithWallet: (walletAddress: string, walletId = 'FREIGHTER') =>
-    raw<Tokens>('/auth/wallet', { method: 'POST', body: JSON.stringify({ walletAddress, walletId }) }, false),
+  /* auth — Freighter wallet only, via a signed challenge (SEP-53) */
+  authChallenge: (walletAddress: string) =>
+    raw<Challenge>('/auth/challenge', { method: 'POST', body: JSON.stringify({ walletAddress }) }, false),
+  authVerify: (walletAddress: string, nonce: string, signature: string) =>
+    raw<Tokens>('/auth/wallet', { method: 'POST', body: JSON.stringify({ walletAddress, nonce, signature }) }, false),
   logout: () => raw<{ ok: true }>('/auth/logout', { method: 'POST' }),
   me: () => raw<User>('/auth/me'),
 
   /* users */
   dashboard: () => raw<Dashboard>('/users/dashboard'),
 
-  /* wallet */
-  connectWallet: (walletId: string, address: string) =>
-    raw<User>('/wallet/connect', { method: 'POST', body: JSON.stringify({ walletId, address }) }),
+  /* wallet — read-only; the wallet is established at login */
+  walletStatus: () =>
+    raw<{ userId: string; walletId: string; address: string; createdAt: string } | null>('/wallet'),
 
   /* plans */
   plans: () => raw<Plan[]>('/plans'),
@@ -182,8 +182,11 @@ export const api = {
   /* vaults */
   vaults: () => raw<Vault[]>('/vaults'),
   vault: (id: string) => raw<Vault>(`/vaults/${id}`),
-  breakVault: (vaultId: string, password?: string) =>
-    raw<Vault>('/vaults/break', { method: 'POST', body: JSON.stringify({ vaultId, password: password ?? 'wallet_auth' }) }),
+  /* Early break is a two-step signed action, mirroring login. */
+  breakChallenge: (vaultId: string) =>
+    raw<Challenge>('/vaults/break/challenge', { method: 'POST', body: JSON.stringify({ vaultId }) }),
+  breakVault: (vaultId: string, nonce: string, signature: string) =>
+    raw<Vault>('/vaults/break', { method: 'POST', body: JSON.stringify({ vaultId, nonce, signature }) }),
 
   /* allocations */
   detectAllocations: (walletAddress?: string) =>

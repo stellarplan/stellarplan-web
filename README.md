@@ -24,19 +24,31 @@ Then open http://localhost:3000.
 
 > The web app expects the API to be running at `NEXT_PUBLIC_API_URL` (default `http://localhost:4000/api/v1`).
 
+## Authentication
+
+Sign-in is **Freighter wallet only** — no email, no password. The flow lives in
+[`lib/freighter.ts`](./lib/freighter.ts):
+
+1. Connect Freighter and read the wallet address.
+2. Request a challenge from the API (`POST /auth/challenge`).
+3. Sign the challenge message with Freighter (SEP-53 `signMessage`).
+4. Exchange the signature for JWT tokens (`POST /auth/wallet`).
+
+The same signed-challenge pattern gates breaking a vault early. Freighter must
+be installed — the login screen links to it when it isn't detected.
+
 ## Screens
 
-| Route | MVP Screen |
+| Route | Screen |
 |---|---|
-| `/welcome` | Welcome / Onboarding |
-| `/login` / `/signup` | Authentication |
-| `/onboarding` | Connect Stellar wallet |
-| `/dashboard` | Balances + Plan grid + Recent activity |
+| `/login` / `/signup` | Freighter connect + sign-in |
+| `/onboarding` | "You're connected" welcome + next step |
+| `/dashboard` | Balances + vault grid + recent activity |
 | `/budgets/new` | 3-step plan creation wizard |
 | `/plans` | Full vault list, search & filter |
-| `/plans/:id` | Vault details + withdraw early |
+| `/plans/:id` | Vault details + break vault (signed) |
 | `/activity` | Complete financial timeline |
-| `/settings` | Wallet, notifications, log out |
+| `/settings` | Wallet, notifications, theme, log out |
 
 ## Design system
 

@@ -1,0 +1,36 @@
+name: Bug report
+description: Report a defect in the StellarPlan web app
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to '...'
+        2. Click '...'
+        3. See error
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & Freighter version
+      placeholder: Chrome 128, Freighter 4.1.0
+    validations:
+      required: false
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Relevant browser console errors. Redact any tokens or wallet keys.
+      render: shell
+    validations:
+      required: false

@@ -2,48 +2,38 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, Zap, CheckCircle2, Shield } from 'lucide-react';
+import { AlertTriangle, Zap, CheckCircle2 } from 'lucide-react';
 
 export interface BreakVaultModalProps {
   open: boolean;
   purpose: string;
   onClose(success?: boolean): void;
-  onConfirm(password: string): Promise<void>;
+  /** Runs the real break flow (challenge → Freighter signature → submit). */
+  onConfirm(): Promise<void>;
 }
 
 export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaultModalProps) {
-  const [step, setStep] = useState<'confirm' | 'countdown' | 'done'>('confirm');
-  const [freighter, setFreighter] = useState<{ isConnected: boolean; getPublicKey(): Promise<string> } | null>(null);
-  const [seconds, setSeconds] = useState(10);
-  const [submitting, setSubmitting] = useState(false);
+  const [step, setStep] = useState<'confirm' | 'signing' | 'done'>('confirm');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const w = window as any;
-    if (w.freighter?.isConnected) setFreighter(w.freighter);
-  }, []);
-
-  useEffect(() => {
-    if (open) { setStep('confirm'); setSeconds(10); setError(''); }
+    if (open) { setStep('confirm'); setError(''); }
   }, [open]);
 
-  useEffect(() => {
-    if (step !== 'countdown') return;
-    if (seconds <= 0) {
-      setSubmitting(true);
-      onConfirm('freighter_sig')
-        .then(() => setStep('done'))
-        .catch((e) => { setError(e.message ?? 'Withdrawal failed'); setStep('confirm'); })
-        .finally(() => setSubmitting(false));
-      return;
+  async function handleConfirm() {
+    setError('');
+    setStep('signing');
+    try {
+      await onConfirm();
+      setStep('done');
+    } catch (e: any) {
+      setError(e?.message ?? 'Withdrawal failed or was rejected');
+      setStep('confirm');
     }
-    const t = setTimeout(() => setSeconds((s) => s - 1), 1000);
-    return () => clearTimeout(t);
-  }, [step, seconds, onConfirm]);
+  }
 
   if (!open) return null;
-  const dismissible = !submitting && step !== 'countdown';
-  const pct = ((10 - seconds) / 10) * 100;
+  const dismissible = step !== 'signing';
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
@@ -73,7 +63,7 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
               <h2 className="text-2xl font-bold text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>Early Vault Release?</h2>
               <p className="text-xs leading-relaxed max-w-xs mx-auto text-[#A1A1AA]">
                 You are requesting early withdrawal for your <strong className="text-[#FAFAFA]">{purpose}</strong> vault.
-                This action breaks the smart contract lock before the designated payment date.
+                This breaks the smart-contract lock before the designated payment date. Freighter will ask you to sign to confirm.
               </p>
             </div>
 
@@ -83,7 +73,7 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
               <button
                 id="freighter-confirm-break-btn"
                 className="btn-primary w-full py-3.5 rounded-xl font-bold flex items-center justify-center gap-2"
-                onClick={() => setStep('countdown')}
+                onClick={handleConfirm}
               >
                 <Zap size={16} /> Confirm Release with Freighter Wallet
               </button>
@@ -92,28 +82,13 @@ export function BreakVaultModal({ open, purpose, onClose, onConfirm }: BreakVaul
           </div>
         )}
 
-        {/* COUNTDOWN */}
-        {step === 'countdown' && (
-          <div className="text-center space-y-5 py-4" aria-live="polite">
-            <div className="relative w-32 h-32 mx-auto grid place-items-center">
-              <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                <path strokeWidth="3" stroke="#2B2C33" fill="none"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path
-                  strokeDasharray={`${pct}, 100`}
-                  strokeWidth="3" strokeLinecap="round" fill="none"
-                  stroke="#F43F5E"
-                  className="transition-all duration-1000 ease-linear"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-              </svg>
-              <span className="absolute font-mono text-4xl font-extrabold text-[#FAFAFA]">
-                {seconds}
-              </span>
-            </div>
+        {/* SIGNING */}
+        {step === 'signing' && (
+          <div className="text-center space-y-5 py-6" aria-live="polite">
+            <div className="w-16 h-16 rounded-full grid place-items-center mx-auto border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
             <div className="space-y-1">
-              <p className="text-sm font-bold text-[#FAFAFA]">Preparing Withdrawal Signature</p>
-              <p className="text-xs text-[#A1A1AA]">Cooldown active to prevent accidental impulse spending.</p>
+              <p className="text-sm font-bold text-[#FAFAFA]">Waiting for your signature</p>
+              <p className="text-xs text-[#A1A1AA]">Approve the signature request in the Freighter popup to release these funds.</p>
             </div>
           </div>
         )}
