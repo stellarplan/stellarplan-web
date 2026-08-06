@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Shield, Zap, Lock, ArrowRight, CheckCircle2, Wallet, Star } from 'lucide-react';
+import { Shield, Zap, Lock, ArrowRight, CheckCircle2, Wallet, Star, Layers, CalendarClock, ShieldCheck, KeyRound, Fingerprint, Unlock } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -180,6 +180,103 @@ export default function LandingPage() {
                 <p style={{ color: '#A1A1AA', fontSize: '0.875rem', lineHeight: 1.7 }}>{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" className="py-24 relative bg-[#0C0D10]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950/80 border border-emerald-800 text-emerald-400">
+              How It Works
+            </span>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>
+              From Paycheck to Protected in Three Steps
+            </h2>
+            <p style={{ color: '#A1A1AA', lineHeight: 1.7 }}>
+              No manual transfers and no willpower required. StellarPlan watches your wallet and does the splitting the moment your salary arrives.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { step: '01', icon: Wallet, title: 'Your Salary Lands', desc: 'Your employer pays USDC into your Stellar wallet as usual. A Horizon listener detects the incoming deposit within seconds — no bank and no middleman in between.' },
+              { step: '02', icon: Layers, title: 'Funds Auto-Split into Vaults', desc: 'Your plan runs instantly: rent, utilities, and savings are locked into individual Soroban vaults on-chain. Only what is genuinely free to spend stays in your wallet.' },
+              { step: '03', icon: CalendarClock, title: 'Money Unlocks on Schedule', desc: 'Bill vaults auto-release on their due date so payments are always covered. Savings stay locked until you deliberately break them with a Freighter signature.' },
+            ].map(({ step, icon: Icon, title, desc }) => (
+              <div key={step} className="relative rounded-2xl p-8 space-y-5 bg-[#141519] border border-[#2B2C33]">
+                <span className="absolute top-6 right-6 font-mono text-sm font-bold text-[#3F3F46]">{step}</span>
+                <div className="w-12 h-12 rounded-2xl grid place-items-center bg-emerald-950 border border-emerald-800 text-emerald-400">
+                  <Icon size={22} />
+                </div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>{title}</h3>
+                <p style={{ color: '#A1A1AA', fontSize: '0.875rem', lineHeight: 1.7 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECURITY */}
+      <section id="security" className="py-24 relative bg-[#0C0D10] border-t border-[#2B2C33]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-6">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950/80 border border-emerald-800 text-emerald-400">
+                <Shield size={13} /> Security
+              </span>
+              <h2 style={{ fontSize: '2.25rem', fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>
+                Protected by Math, Not Promises
+              </h2>
+              <p style={{ color: '#A1A1AA', lineHeight: 1.7 }}>
+                StellarPlan is non-custodial from the ground up. Your money is guarded by open Soroban contracts and your own wallet key — never by our servers, and never by trust in us.
+              </p>
+              <div className="flex items-center gap-3 rounded-xl px-4 py-3 bg-emerald-950/40 border border-emerald-900/60 text-sm text-emerald-300">
+                <ShieldCheck size={18} className="shrink-0" /> Every vault can only ever pay funds back to its owner — you.
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { icon: KeyRound, title: 'Non-Custodial Vaults', desc: 'Each vault is a single-owner Soroban contract. StellarPlan can never move, redirect, or withdraw your funds.' },
+                { icon: Fingerprint, title: 'Wallet-Only Sign-In', desc: 'No passwords or email to leak. You sign a one-time SEP-53 challenge in Freighter; your keys never leave the extension.' },
+                { icon: Lock, title: 'On-Chain Time-Locks', desc: 'Lock rules live in the contract, not a database. Even we cannot release your savings before you choose to.' },
+                { icon: Unlock, title: 'Signed Early Exits', desc: 'Breaking a vault early takes a fresh Freighter signature every time — a deliberate, phishing-resistant action.' },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="rounded-2xl p-6 space-y-3 bg-[#141519] border border-[#2B2C33]">
+                  <div className="w-10 h-10 rounded-xl grid place-items-center bg-emerald-950 border border-emerald-800 text-emerald-400">
+                    <Icon size={19} />
+                  </div>
+                  <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>{title}</h3>
+                  <p style={{ color: '#A1A1AA', fontSize: '0.8rem', lineHeight: 1.65 }}>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 relative bg-[#0C0D10] border-t border-[#2B2C33]">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="relative overflow-hidden rounded-3xl p-10 md:p-14 text-center bg-[#141519] border border-emerald-900">
+            <div className="relative z-10 space-y-6">
+              <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAFA', fontFamily: 'var(--font-display)', lineHeight: 1.15 }}>
+                Stop rationing your paycheck by willpower.
+              </h2>
+              <p className="max-w-xl mx-auto" style={{ color: '#A1A1AA', lineHeight: 1.7 }}>
+                Connect your Freighter wallet and let StellarPlan protect rent, bills, and savings automatically — the moment you get paid.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                <Link href="/login" className="btn-primary w-full sm:w-auto text-base px-8 py-4 rounded-xl">
+                  Sign In with Freighter <ArrowRight size={18} />
+                </Link>
+                <Link href="/signup" className="btn-ghost w-full sm:w-auto text-base px-6 py-4 rounded-xl font-semibold text-center">
+                  Create Account
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
