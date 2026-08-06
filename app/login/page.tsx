@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import { isFreighterAvailable, loginWithFreighter } from '@/lib/freighter';
 import { ApiError } from '@/lib/api';
 import { motion } from 'framer-motion';
-import { Lock, Star, Zap, Wallet, ArrowRight } from 'lucide-react';
+import { Lock, Zap, Wallet, ArrowRight } from 'lucide-react';
+import Logo from '@/components/common/Logo';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function LoginPage() {
         <div className="relative z-10">
           <Link href="/" className="inline-flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl grid place-items-center bg-emerald-500">
-              <Star size={17} className="text-black fill-black" />
+              <Logo size={17} className="text-black" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: '#FAFAFA' }}>
               Stellar<span style={{ color: '#10B981' }}>Plan</span>
@@ -80,7 +81,7 @@ export default function LoginPage() {
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full space-y-8">
           <div className="md:hidden flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl grid place-items-center bg-emerald-500">
-              <Star size={17} className="text-black fill-black" />
+              <Logo size={17} className="text-black" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: '#FAFAFA' }}>
               Stellar<span style={{ color: '#10B981' }}>Plan</span>

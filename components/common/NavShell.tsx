@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Vault, BarChart3, Settings, Plus, Star } from 'lucide-react';
+import { Home, Vault, BarChart3, Settings, Plus } from 'lucide-react';
+import Logo from '@/components/common/Logo';
 import { cn } from '@/lib/utils';
 
 const BOTTOM_NAV = [
@@ -33,7 +34,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
         <div className="px-6 py-6 mb-2">
           <Link href="/dashboard" className="flex items-center gap-3 group">
             <div className="w-8 h-8 rounded-xl grid place-items-center bg-emerald-500">
-              <Star size={15} className="text-black fill-black" />
+              <Logo size={15} className="text-black" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.02em', color: '#FAFAFA' }}>
               Stellar<span style={{ color: '#10B981' }}>Plan</span>

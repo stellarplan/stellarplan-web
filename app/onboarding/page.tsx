@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api, User } from '@/lib/api';
 import { motion } from 'framer-motion';
-import { Shield, ArrowRight, Star, CheckCircle2, Plus } from 'lucide-react';
+import { Shield, ArrowRight, CheckCircle2, Plus } from 'lucide-react';
+import Logo from '@/components/common/Logo';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function OnboardingPage() {
         className="max-w-md w-full space-y-7 rounded-3xl p-8 bg-[#141519] border border-[#2B2C33] shadow-2xl">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl grid place-items-center bg-emerald-500">
-            <Star size={19} className="text-black fill-black" />
+            <Logo size={19} className="text-black" />
           </div>
           <div>
             <h1 className="font-bold text-xl text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>You&apos;re connected</h1>

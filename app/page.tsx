@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Shield, Zap, Lock, ArrowRight, CheckCircle2, Wallet, Star, Layers, CalendarClock, ShieldCheck, KeyRound, Fingerprint, Unlock } from 'lucide-react';
+import { Shield, Zap, Lock, ArrowRight, CheckCircle2, Wallet, Layers, CalendarClock, ShieldCheck, KeyRound, Fingerprint, Unlock } from 'lucide-react';
+import Logo from '@/components/common/Logo';
 
 export default function LandingPage() {
   return (
@@ -13,7 +14,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 h-18 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-9 h-9 rounded-xl grid place-items-center bg-emerald-500">
-              <Star size={18} className="text-black fill-black" />
+              <Logo size={18} className="text-black" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', color: '#FAFAFA' }}>
               Stellar<span style={{ color: '#10B981' }}>Plan</span>
@@ -227,7 +228,7 @@ export default function LandingPage() {
                 <Shield size={13} /> Security
               </span>
               <h2 style={{ fontSize: '2.25rem', fontWeight: 700, letterSpacing: '-0.03em', color: '#FAFAFA', fontFamily: 'var(--font-display)' }}>
-                Protected by Math, Not Promises
+                Non-Custodial by Design
               </h2>
               <p style={{ color: '#A1A1AA', lineHeight: 1.7 }}>
                 StellarPlan is non-custodial from the ground up. Your money is guarded by open Soroban contracts and your own wallet key — never by our servers, and never by trust in us.
@@ -286,7 +287,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-[#71717A]">
           <div className="flex items-center gap-3">
             <div className="w-7 h-7 rounded-lg grid place-items-center bg-emerald-500 text-black">
-              <Star size={13} className="fill-black" />
+              <Logo size={13} className="text-black" />
             </div>
             <span className="font-bold text-[#FAFAFA]">StellarPlan</span>
             <span>—</span>
