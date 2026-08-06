@@ -105,8 +105,6 @@ function normaliseError(error: unknown): string {
 /* High-level flows                                                    */
 /* ------------------------------------------------------------------ */
 
-import { api, setTokens } from './api';
-
 /**
  * Full Freighter login: connect → request a challenge → sign it → exchange the
  * signature for tokens, which are then stored. Returns the wallet address.
