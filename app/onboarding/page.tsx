@@ -22,36 +22,36 @@ export default function OnboardingPage() {
     : '';
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6" style={{ background: '#0C0D10' }}>
+    <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'rgb(var(--background-rgb))' }}>
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-        className="max-w-md w-full space-y-7 rounded-3xl p-8 bg-[#141519] border border-[#2B2C33] shadow-2xl">
+        className="max-w-md w-full space-y-7 rounded-3xl p-8 bg-surface border border-border shadow-2xl">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl grid place-items-center bg-emerald-500">
+          <div className="w-10 h-10 rounded-xl grid place-items-center bg-accent">
             <Logo size={19} className="text-black" />
           </div>
           <div>
-            <h1 className="font-bold text-xl text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>You&apos;re connected</h1>
-            <p className="text-xs text-[#A1A1AA]">Your Freighter wallet is linked to StellarPlan</p>
+            <h1 className="font-bold text-xl text-foreground" style={{ fontFamily: 'var(--font-display)' }}>You&apos;re connected</h1>
+            <p className="text-xs text-muted">Your Freighter wallet is linked to StellarPlan</p>
           </div>
         </div>
 
-        <div className="rounded-2xl p-4 space-y-2 bg-emerald-950/40 border border-emerald-800">
-          <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
+        <div className="rounded-2xl p-4 space-y-2 bg-accent-soft border border-accent-line">
+          <div className="flex items-center gap-2 text-xs font-bold text-accent-text">
             <CheckCircle2 size={14} /> Wallet verified
           </div>
           {short && (
-            <p className="text-xs font-mono break-all text-[#A1A1AA]">{short}</p>
+            <p className="text-xs font-mono break-all text-muted">{short}</p>
           )}
-          <p className="text-xs text-[#A1A1AA] leading-relaxed">
+          <p className="text-xs text-muted leading-relaxed">
             StellarPlan watches this wallet for incoming salary and locks it into Soroban smart vaults according to your plans.
           </p>
         </div>
 
-        <div className="rounded-2xl p-4 space-y-2 bg-[#1C1D22] border border-[#2B2C33]">
-          <div className="flex items-center gap-2 text-xs font-bold text-[#FAFAFA]">
-            <Shield size={14} className="text-emerald-400" /> Next step
+        <div className="rounded-2xl p-4 space-y-2 bg-surface-2 border border-border">
+          <div className="flex items-center gap-2 text-xs font-bold text-foreground">
+            <Shield size={14} className="text-accent-text" /> Next step
           </div>
-          <p className="text-xs text-[#A1A1AA] leading-relaxed">
+          <p className="text-xs text-muted leading-relaxed">
             Create your first budget plan — rent, bills, or savings — so StellarPlan knows how to split your salary.
           </p>
         </div>

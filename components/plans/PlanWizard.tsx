@@ -55,14 +55,14 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
   }
 
   return (
-    <div className="max-w-md w-full mx-auto p-6 md:p-8 space-y-7 rounded-3xl bg-[#141519] border border-[#2B2C33] shadow-2xl">
+    <div className="max-w-md w-full mx-auto p-6 md:p-8 space-y-7 rounded-3xl bg-surface border border-border shadow-2xl">
       {/* Step Progress Bar */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs">
-          <span className="font-bold uppercase tracking-wider text-[#A1A1AA]">
+          <span className="font-bold uppercase tracking-wider text-muted">
             Step {step + 1} of {STEPS.length}: {STEPS[step]}
           </span>
-          <span className="font-mono font-bold text-emerald-400">
+          <span className="font-mono font-bold text-accent-text">
             {Math.round(((step + 1) / STEPS.length) * 100)}%
           </span>
         </div>
@@ -71,7 +71,7 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
             <div
               key={s}
               className="h-1.5 flex-1 rounded-full transition-all duration-300"
-              style={{ background: i <= step ? '#10B981' : '#2B2C33' }}
+              style={{ background: i <= step ? 'rgb(var(--accent-rgb))' : 'rgb(var(--border-rgb))' }}
             />
           ))}
         </div>
@@ -81,10 +81,10 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
         {step === 0 && (
           <motion.div key="step0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="space-y-5">
             <div>
-              <h2 className="text-2xl font-bold text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>
+              <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>
                 What should your salary protect first?
               </h2>
-              <p className="text-xs mt-1 text-[#A1A1AA]">Select an essential expense category or create a custom plan.</p>
+              <p className="text-xs mt-1 text-muted">Select an essential expense category or create a custom plan.</p>
             </div>
 
             <div className="grid grid-cols-3 gap-2.5">
@@ -95,7 +95,7 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
                     key={p.category}
                     type="button"
                     className="flex flex-col items-center justify-center gap-1.5 rounded-2xl p-3 text-xs transition-all"
-                    style={selected ? { background: '#10B981', color: '#000000', border: '1px solid #10B981' } : { background: '#1C1D22', color: '#FAFAFA', border: '1px solid #2B2C33' }}
+                    style={selected ? { background: 'rgb(var(--accent-rgb))', color: '#000000', border: '1px solid rgb(var(--accent-rgb))' } : { background: 'rgb(var(--surface-2-rgb))', color: 'hsl(var(--foreground))', border: '1px solid rgb(var(--border-rgb))' }}
                     onClick={() => {
                       setName(p.label);
                       setCategory(p.category);
@@ -110,7 +110,7 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
             </div>
 
             <div className="space-y-1.5 pt-1">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#A1A1AA]">Plan Name</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">Plan Name</label>
               <input className="input text-sm font-semibold" placeholder="e.g. House Rent, Electricity" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
           </motion.div>
@@ -121,15 +121,15 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
             <div>
               <div className="flex items-center gap-2.5 mb-1">
                 <span className="text-3xl">{icon}</span>
-                <h2 className="text-2xl font-bold text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>{name}</h2>
+                <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>{name}</h2>
               </div>
-              <p className="text-xs text-[#A1A1AA]">Set the exact monthly amount to auto-lock upon salary deposit.</p>
+              <p className="text-xs text-muted">Set the exact monthly amount to auto-lock upon salary deposit.</p>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#A1A1AA]">Monthly Lock Target</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">Monthly Lock Target</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-[#71717A]">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-muted-2">$</span>
                 <input
                   className="input !pl-10 text-3xl font-bold font-mono tracking-tight"
                   type="number"
@@ -140,12 +140,12 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
                   onChange={(e) => setAmount(e.target.value)}
                   autoFocus
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-[#71717A]">USDC</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono font-bold text-muted-2">USDC</span>
               </div>
             </div>
 
             <div className="space-y-2.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-[#A1A1AA]">Protection Strategy</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">Protection Strategy</label>
               <div className="grid grid-cols-3 gap-2">
                 {(['BILL', 'EMERGENCY', 'SAVINGS'] as const).map((t) => {
                   const selected = planType === t;
@@ -155,7 +155,7 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
                       type="button"
                       onClick={() => setPlanType(t)}
                       className="rounded-2xl p-3 text-center transition-all"
-                      style={selected ? { background: '#10B981', color: '#000000', border: '1px solid #10B981' } : { background: '#1C1D22', color: '#FAFAFA', border: '1px solid #2B2C33' }}
+                      style={selected ? { background: 'rgb(var(--accent-rgb))', color: '#000000', border: '1px solid rgb(var(--accent-rgb))' } : { background: 'rgb(var(--surface-2-rgb))', color: 'hsl(var(--foreground))', border: '1px solid rgb(var(--border-rgb))' }}
                     >
                       <div className="text-xl mb-1">{t === 'BILL' ? '🏠' : t === 'EMERGENCY' ? '🛡️' : '🌱'}</div>
                       <div className="text-xs font-bold">{t === 'BILL' ? 'Monthly Bill' : t === 'EMERGENCY' ? 'Emergency' : 'Savings'}</div>
@@ -170,24 +170,24 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
         {step === 2 && (
           <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="space-y-5">
             <div>
-              <h2 className="text-2xl font-bold text-[#FAFAFA]" style={{ fontFamily: 'var(--font-display)' }}>When should it unlock?</h2>
-              <p className="text-xs mt-1 text-[#A1A1AA]">Select the day of the month this expense is due for payment.</p>
+              <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>When should it unlock?</h2>
+              <p className="text-xs mt-1 text-muted">Select the day of the month this expense is due for payment.</p>
             </div>
 
             {planType === 'BILL' ? (
               <div className="space-y-3">
                 <input className="input text-3xl font-bold font-mono text-center" type="number" min={1} max={28} placeholder="28" value={unlockDay} onChange={(e) => setUnlockDay(e.target.value)} />
-                <p className="text-xs text-center font-medium text-[#A1A1AA]">
-                  Unlocks automatically on the <strong className="text-[#FAFAFA]">{unlockDay || '28'}th</strong> of every month.
+                <p className="text-xs text-center font-medium text-muted">
+                  Unlocks automatically on the <strong className="text-foreground">{unlockDay || '28'}th</strong> of every month.
                 </p>
               </div>
             ) : (
-              <div className="rounded-2xl p-5 text-center space-y-2 bg-emerald-950/40 border border-emerald-800">
-                <div className="w-12 h-12 rounded-full grid place-items-center mx-auto text-xl bg-emerald-900 text-emerald-300">
+              <div className="rounded-2xl p-5 text-center space-y-2 bg-accent-soft border border-accent-line">
+                <div className="w-12 h-12 rounded-full grid place-items-center mx-auto text-xl bg-accent-soft text-accent-text">
                   {planType === 'EMERGENCY' ? <Shield size={22} /> : <Lock size={22} />}
                 </div>
-                <p className="text-sm font-bold text-[#FAFAFA]">{planType === 'EMERGENCY' ? 'Permanent Smart Contract Protection' : 'Targeted Vault Savings'}</p>
-                <p className="text-xs leading-relaxed text-[#A1A1AA]">
+                <p className="text-sm font-bold text-foreground">{planType === 'EMERGENCY' ? 'Permanent Smart Contract Protection' : 'Targeted Vault Savings'}</p>
+                <p className="text-xs leading-relaxed text-muted">
                   {planType === 'EMERGENCY'
                     ? 'Emergency funds stay securely locked in the Soroban smart contract until you trigger early withdrawal.'
                     : 'Savings remain protected until your explicit release date.'}

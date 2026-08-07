@@ -3,69 +3,114 @@
 @tailwind utilities;
 
 /* ============================================================
-   CYBER EMERALD & NOIR GRAPHITE — Luxury Fintech System
-   NO BLUE · NO BROWN · NO GRADIENTS · Ultra-Clean Flat Dark Mode
+   STELLARPLAN DESIGN SYSTEM
+   Light + Dark · token-driven · Apple-grade depth & motion
+   Brand: Cyber Emerald. Accents: Amethyst (nova), Rose (danger).
+   Every surface/text/border reads from a CSS var so the whole
+   UI crossfades between themes from a single class on <html>.
    ============================================================ */
 
 :root {
-  /* Solid Noir Graphite Backgrounds (Zero Blue Tint) */
-  --background:     240 10% 4.7%;      --background-rgb: 12,13,16;     /* #0C0D10 - Noir Graphite */
-  --surface:        240 7.3% 8.6%;     --surface-rgb:    20,21,25;     /* #141519 - Deep Charcoal Card */
-  --surface-2:      240 6.5% 12.5%;    --surface-2-rgb:  28,29,34;     /* #1C1D22 - Elevated Surface */
+  /* ── LIGHT (default) ─────────────────────────────────────
+     Soft Apple greys: near-white canvas, pure-white cards. */
+  --background-rgb:  245,245,247;   /* #F5F5F7 canvas   */
+  --surface-rgb:     255,255,255;   /* #FFFFFF card     */
+  --surface-2-rgb:   239,239,242;   /* #EFEFF2 inset    */
+  --border-rgb:      226,226,232;   /* #E2E2E8          */
+  --border-soft-rgb: 236,236,240;   /* #ECECF0          */
 
-  /* Crisp Borders */
-  --border:         240 6% 18.5%;      --border-rgb:     43,44,51;     /* #2B2C33 */
-  --border-soft:    240 6% 15%;        --border-soft-rgb: 35,36,42;
+  --foreground:      240 6% 10%;    /* #18181B ink      */
+  --muted:           240 3% 44%;    /* #6E6E73          */
+  --muted-2:         240 3% 58%;    /* #90909A          */
 
-  /* Text */
-  --foreground:     0 0% 98%;          /* #FAFAFA - Pure Platinum */
-  --muted:          240 5% 65%;        /* #A1A1AA - Zinc Grey */
+  /* Brand green — solid fills (buttons, logo chip, icons) */
+  --accent-rgb:      16,185,129;    /* #10B981          */
+  --accent-strong-rgb: 4,120,87;    /* #047857 press    */
+  --accent-text:     160 84% 30%;   /* #0B7A55 readable on light */
+  --accent-soft-rgb: 226,247,238;   /* mint chip bg     */
+  --accent-line-rgb: 167,243,208;   /* green-200 border */
 
-  /* Primary Brand Accent: Cyber Emerald (Precision Wealth & Smart Contracts) */
-  --emerald:        158 84% 45%;       /* #10B981 - Cyber Emerald */
-  --emerald-hover:  158 84% 38%;       /* #059669 */
-  --stellar:        var(--emerald);
+  /* Amethyst */
+  --nova-rgb:        147,51,234;    /* #9333EA          */
+  --nova-text:       271 76% 45%;
+  --nova-soft-rgb:   245,240,255;
+  --nova-line-rgb:   233,213,255;
 
-  /* Secondary Accent: Royal Amethyst */
-  --amethyst:       270 91% 65%;       /* #A855F7 */
-  --amethyst-hover: 270 91% 55%;       /* #9333EA */
+  /* Rose */
+  --danger-rgb:      225,29,72;     /* #E11D48          */
+  --danger-text:     347 77% 44%;
+  --danger-soft-rgb: 255,241,242;
+  --danger-line-rgb: 254,205,211;
 
-  /* Cyber Rose Accent: Locked Vault / Alert */
-  --rose:           343 89% 60%;       /* #F43F5E */
-  --danger:         343 89% 60%;
+  /* Depth — soft, diffuse, low-opacity (Apple light) */
+  --shadow-sm:  0 1px 2px rgba(17,24,39,0.04), 0 1px 3px rgba(17,24,39,0.06);
+  --shadow-card: 0 1px 2px rgba(17,24,39,0.04), 0 10px 30px -12px rgba(17,24,39,0.15);
+  --shadow-pop:  0 8px 24px -8px rgba(17,24,39,0.18), 0 24px 48px -16px rgba(17,24,39,0.16);
+  --ring-accent: 0 0 0 4px rgba(16,185,129,0.14);
 
-  /* Compatibility aliases */
-  --indigo:         var(--emerald);
-  --violet:         var(--amethyst);
-  --cyan:           var(--emerald);
-  --jade:           var(--emerald);
-  --copper:         var(--amethyst);
-  --copper-dark:    var(--rose);
-  --success:        var(--emerald);
-  --warning:        270 91% 65%;
-  --clay:           var(--border);
+  --nav-bg: rgba(255,255,255,0.72);
+
+  color-scheme: light;
 }
 
-.light {
-  --background:     0 0% 98%;          --background-rgb: 250,250,250;
-  --surface:        0 0% 100%;         --surface-rgb:    255,255,255;
-  --surface-2:      240 5% 96%;        --surface-2-rgb:  244,244,245;
-  --border:         240 5% 84%;        --border-rgb:     212,212,216;
-  --border-soft:    240 5% 90%;        --border-soft-rgb: 228,228,231;
-  --foreground:     240 10% 4%;
-  --muted:          240 4% 46%;
+.dark {
+  /* ── DARK · Noir graphite, softened ───────────────────── */
+  --background-rgb:  11,12,15;      /* #0B0C0F          */
+  --surface-rgb:     20,21,25;      /* #141519          */
+  --surface-2-rgb:   28,29,34;      /* #1C1D22          */
+  --border-rgb:      42,43,50;      /* #2A2B32          */
+  --border-soft-rgb: 34,35,41;
+
+  --foreground:      240 20% 97%;   /* #F5F5F7          */
+  --muted:           240 5% 64%;    /* #9C9CA6          */
+  --muted-2:         240 4% 46%;    /* #71717A          */
+
+  --accent-rgb:      16,185,129;    /* #10B981          */
+  --accent-strong-rgb: 5,150,105;   /* #059669          */
+  --accent-text:     158 74% 55%;   /* #34D399 on dark  */
+  --accent-soft-rgb: 12,42,32;      /* deep green chip  */
+  --accent-line-rgb: 12,74,57;      /* green-800-ish    */
+
+  --nova-rgb:        168,85,247;    /* #A855F7          */
+  --nova-text:       270 91% 76%;   /* #C084FC          */
+  --nova-soft-rgb:   38,20,64;
+  --nova-line-rgb:   88,28,135;
+
+  --danger-rgb:      244,63,94;     /* #F43F5E          */
+  --danger-text:     351 95% 71%;   /* #FB7185          */
+  --danger-soft-rgb: 42,16,22;
+  --danger-line-rgb: 127,29,44;
+
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.4);
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 14px 40px -16px rgba(0,0,0,0.7);
+  --shadow-pop:  0 16px 40px -12px rgba(0,0,0,0.7), 0 32px 64px -24px rgba(0,0,0,0.6);
+  --ring-accent: 0 0 0 4px rgba(16,185,129,0.20);
+
+  --nav-bg: rgba(20,21,25,0.66);
+
+  color-scheme: dark;
 }
 
-/* ── Base Layer ────────────────────────────────────────── */
+/* ── Base ──────────────────────────────────────────────── */
 @layer base {
-  * { border-color: rgba(43,44,51,0.8); }
+  * { border-color: rgb(var(--border-rgb)); }
+
   html { @apply antialiased scroll-smooth; }
 
   body {
     @apply text-foreground min-h-screen relative overflow-x-hidden;
     font-family: var(--font-sans), 'Plus Jakarta Sans', system-ui, sans-serif;
-    background: #0C0D10;
+    background: rgb(var(--background-rgb));
   }
+
+  /* Crossfade colors on theme switch — suppressed on first paint
+     via the .no-transition class the boot script removes. */
+  body, .card, .vault-card, .glass-panel, .btn, .input, .vault-lock,
+  header, nav, aside, section, footer {
+    transition: background-color .35s ease, border-color .35s ease,
+                color .35s ease, box-shadow .35s ease;
+  }
+  .no-transition * { transition: none !important; }
 
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display), 'Outfit', system-ui, sans-serif;
@@ -76,122 +121,182 @@
     font-family: var(--font-mono), 'JetBrains Mono', monospace;
     font-feature-settings: 'tnum';
   }
+
+  ::selection { background: rgb(var(--accent-rgb) / 0.22); }
 }
 
 /* ── Components ────────────────────────────────────────── */
 @layer components {
 
-  /* ── Solid Charcoal Vault Card ── */
+  .card {
+    @apply relative overflow-hidden rounded-2xl p-6;
+    background: rgb(var(--surface-rgb));
+    border: 1px solid rgb(var(--border-rgb));
+    box-shadow: var(--shadow-card);
+  }
+
   .vault-card {
-    position: relative;
-    background: #141519;
-    border-radius: 20px;
-    border: 1px solid #2B2C33;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    transition: all 0.2s ease;
+    @apply relative rounded-2xl;
+    background: rgb(var(--surface-rgb));
+    border: 1px solid rgb(var(--border-rgb));
+    box-shadow: var(--shadow-card);
+    transition: transform .4s cubic-bezier(0.22,1,0.36,1),
+                border-color .3s ease, box-shadow .4s ease;
+    will-change: transform;
   }
   .vault-card:hover {
-    border-color: #10B981;
-    transform: translateY(-2px);
+    border-color: rgb(var(--accent-rgb) / 0.55);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-pop);
   }
 
-  /* ── Lock Badge ── */
   .vault-lock {
-    @apply inline-flex items-center justify-center rounded-xl transition-all duration-200;
+    @apply inline-flex items-center justify-center rounded-xl transition-all duration-300;
     width: 36px; height: 36px;
-    background: #1C1D22;
-    border: 1px solid #2B2C33;
-    color: #10B981;
+    background: rgb(var(--surface-2-rgb));
+    border: 1px solid rgb(var(--border-rgb));
+    color: rgb(var(--accent-rgb));
   }
   .vault-card:hover .vault-lock {
-    border-color: #10B981;
-    background: #10B981;
-    color: #000000;
+    border-color: rgb(var(--accent-rgb));
+    background: rgb(var(--accent-rgb));
+    color: #fff;
+    transform: scale(1.06);
   }
 
-  /* ── Flat Panel ── */
+  /* Frosted, translucent panel — used for nav bars & overlays */
   .glass-panel {
-    background: #141519;
-    border: 1px solid #2B2C33;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    background: var(--nav-bg);
+    border: 1px solid rgb(var(--border-rgb));
+    box-shadow: var(--shadow-card);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
   }
 
-  /* ── Standard Card ── */
-  .card {
-    @apply relative overflow-hidden;
-    background: #141519;
-    border-radius: 20px;
-    border: 1px solid #2B2C33;
-    padding: 1.5rem;
-  }
-
-  /* ── Solid Flat Buttons (NO GRADIENTS, NO BLUE) ── */
+  /* ── Buttons ── */
   .btn {
-    @apply inline-flex items-center justify-center gap-2
-           whitespace-nowrap select-none rounded-xl px-5 py-3.5
-           text-sm font-bold transition-all duration-200 outline-none active:scale-[0.97];
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap
+           select-none rounded-xl px-5 py-3.5 text-sm font-bold outline-none
+           transition-all duration-200 active:scale-[0.97];
   }
   .btn:disabled { @apply pointer-events-none opacity-40; }
 
   .btn-primary {
-    @apply btn text-black;
-    background: #10B981;
-    border: 1px solid #10B981;
+    @apply btn text-white;
+    background: rgb(var(--accent-rgb));
+    border: 1px solid rgb(var(--accent-rgb));
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 8px 20px -8px rgb(var(--accent-rgb) / 0.5);
   }
   .btn-primary:hover:not(:disabled) {
-    background: #059669;
-    border-color: #059669;
+    background: rgb(var(--accent-strong-rgb));
+    border-color: rgb(var(--accent-strong-rgb));
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 12px 28px -8px rgb(var(--accent-rgb) / 0.6);
   }
 
   .btn-nova {
     @apply btn text-white;
-    background: #9333EA;
-    border: 1px solid #A855F7;
+    background: rgb(var(--nova-rgb));
+    border: 1px solid rgb(var(--nova-rgb));
   }
-  .btn-nova:hover:not(:disabled) {
-    background: #7E22CE;
-    border-color: #7E22CE;
-  }
+  .btn-nova:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
 
-  .btn-gold {
+  .btn-gold, .btn-copper {
     @apply btn text-white;
-    background: #E11D48;
-    border: 1px solid #F43F5E;
+    background: rgb(var(--danger-rgb));
+    border: 1px solid rgb(var(--danger-rgb));
   }
-  .btn-gold:hover:not(:disabled) {
-    background: #BE123C;
-    border-color: #BE123C;
-  }
-
-  .btn-copper { @apply btn-gold; }
+  .btn-gold:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
 
   .btn-ghost {
     @apply btn bg-transparent text-foreground;
-    border: 1px solid #2B2C33;
+    border: 1px solid rgb(var(--border-rgb));
   }
   .btn-ghost:hover:not(:disabled) {
-    background: #1C1D22;
-    border-color: #10B981;
-    color: #10B981;
+    background: rgb(var(--surface-2-rgb));
+    border-color: rgb(var(--accent-rgb) / 0.5);
+    color: rgb(var(--accent-rgb));
   }
 
   /* ── Input ── */
   .input {
-    @apply w-full rounded-xl px-4 py-3.5 text-foreground placeholder:text-muted outline-none transition-all;
-    background: #1C1D22;
-    border: 1px solid #2B2C33;
+    @apply w-full rounded-xl px-4 py-3.5 text-foreground placeholder:text-muted-2 outline-none transition-all duration-200;
+    background: rgb(var(--surface-2-rgb));
+    border: 1px solid rgb(var(--border-rgb));
   }
   .input:focus {
-    border-color: #10B981;
+    border-color: rgb(var(--accent-rgb));
+    box-shadow: var(--ring-accent);
+    background: rgb(var(--surface-rgb));
+  }
+
+  /* ── Accent chips / badges (theme-aware) ── */
+  .chip-accent {
+    background: rgb(var(--accent-soft-rgb));
+    border: 1px solid rgb(var(--accent-line-rgb));
+    color: hsl(var(--accent-text));
+  }
+  .chip-nova {
+    background: rgb(var(--nova-soft-rgb));
+    border: 1px solid rgb(var(--nova-line-rgb));
+    color: hsl(var(--nova-text));
+  }
+  .chip-danger {
+    background: rgb(var(--danger-soft-rgb));
+    border: 1px solid rgb(var(--danger-line-rgb));
+    color: hsl(var(--danger-text));
   }
 }
 
-/* ── Utilities ────────────────────────────────────────── */
+/* ── Utilities & motion ────────────────────────────────── */
 @layer utilities {
-  .shimmer-text {
-    color: #10B981;
-  }
-  .star-field {
-    display: none;
+  .shimmer-text { color: rgb(var(--accent-rgb)); }
+  .star-field { display: none; }
+
+  /* Entrance animations — spring-eased, GPU-friendly */
+  .animate-fade-up { animation: fade-up .6s cubic-bezier(0.22,1,0.36,1) both; }
+  .animate-scale-in { animation: scale-in .5s cubic-bezier(0.22,1,0.36,1) both; }
+  .animate-slide-in { animation: slide-in .5s cubic-bezier(0.22,1,0.36,1) both; }
+
+  .delay-1 { animation-delay: .06s; }
+  .delay-2 { animation-delay: .12s; }
+  .delay-3 { animation-delay: .18s; }
+  .delay-4 { animation-delay: .24s; }
+  .delay-5 { animation-delay: .30s; }
+
+  .hover-lift { transition: transform .35s cubic-bezier(0.22,1,0.36,1), box-shadow .35s ease; }
+  .hover-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-pop); }
+
+  .press { transition: transform .12s ease; }
+  .press:active { transform: scale(0.97); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / 0.0); }
+  50%      { box-shadow: 0 0 28px -4px rgb(var(--accent-rgb) / 0.45); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
   }
 }

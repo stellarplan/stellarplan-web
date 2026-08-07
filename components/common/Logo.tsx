@@ -4,7 +4,7 @@
  * Vector reconstruction of the project logo so it stays razor-sharp at every
  * size and needs no raster asset. Fill is `currentColor`, so it inherits the
  * surrounding text color (e.g. `text-black` inside the emerald brand chip, or
- * `text-emerald-500` on a dark surface) — a drop-in replacement anywhere the
+ * `text-accent-text` on a dark surface) — a drop-in replacement anywhere the
  * old star icon was used.
  */
 

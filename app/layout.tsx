@@ -20,7 +20,9 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ['400', '500', '600', '700'],
 });
 
-const themeInit = `(function(){try{var t=localStorage.getItem('sp_theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d)}catch(e){}})()`;
+// Runs before first paint: pick the theme, set the class + color-scheme, and
+// hold off color transitions for one frame so the initial render doesn't flash.
+const themeInit = `(function(){try{var e=document.documentElement;var t=localStorage.getItem('sp_theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';e.classList.add('no-transition');requestAnimationFrame(function(){requestAnimationFrame(function(){e.classList.remove('no-transition')})})}catch(e){}})()`;
 
 export const metadata: Metadata = {
   title: 'StellarPlan — Smart Contract Paycheck Vaults',
@@ -28,7 +30,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#060810',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F5F5F7' },
+    { media: '(prefers-color-scheme: dark)', color: '#0B0C0F' },
+  ],
   width: 'device-width',
   initialScale: 1,
 };
