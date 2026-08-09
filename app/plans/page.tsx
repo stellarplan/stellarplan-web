@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api, Vault } from '@/lib/api';
 import { VaultCard } from '@/components/plans/VaultCard';
 import { FadeIn } from '@/components/common/FadeIn';
+import { Skeleton } from '@/components/common/Skeleton';
 import { Search, Plus } from 'lucide-react';
 
 type Filter = 'ALL' | 'LOCKED' | 'RELEASED' | 'EARLY_WITHDRAWN';
@@ -68,9 +69,25 @@ export default function PlansPage() {
 
       {/* Loading */}
       {loading && (
-        <div className="flex items-center gap-3 py-8 text-muted">
-          <div className="w-4 h-4 rounded-full border-2 animate-spin border-accent-line border-t-emerald-500" />
-          <span className="text-sm">Loading vaults…</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" aria-label="Loading vaults" role="status">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="rounded-2xl p-5 bg-surface border border-border">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="w-12 h-12 rounded-2xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                </div>
+                <Skeleton className="w-7 h-7 rounded-full" />
+              </div>
+              <div className="mt-6 space-y-3">
+                <Skeleton className="h-7 w-28" />
+                <Skeleton className="h-6 w-20 rounded-full" />
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

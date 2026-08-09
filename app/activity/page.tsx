@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { api, Transaction } from '@/lib/api';
 import { formatDate, formatMoney } from '@/lib/format';
 import { FadeIn } from '@/components/common/FadeIn';
+import { Skeleton } from '@/components/common/Skeleton';
 
 const TYPE_ICONS: Record<Transaction['type'], { icon: string; color: string }> = {
   SALARY_DEPOSIT:    { icon: '💵', color: 'rgb(var(--accent-rgb))' },
@@ -49,9 +50,21 @@ export default function ActivityPage() {
       </div>
 
       {loading && (
-        <div className="flex items-center gap-3 py-8 text-muted">
-          <div className="w-4 h-4 rounded-full border-2 animate-spin border-accent-line border-t-emerald-500" />
-          <span className="text-sm">Loading activity log…</span>
+        <div className="rounded-2xl overflow-hidden bg-surface border border-border" aria-label="Loading activity" role="status">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-4 px-5 py-4"
+              style={{ borderBottom: i < 4 ? '1px solid rgb(var(--border-rgb))' : 'none' }}>
+              <Skeleton className="w-10 h-10 rounded-xl flex-shrink-0" />
+              <div className="flex-1 min-w-0 space-y-2">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-3 w-20" />
+              </div>
+              <div className="text-right space-y-2">
+                <Skeleton className="h-4 w-16 ml-auto" />
+                <Skeleton className="h-3 w-8 ml-auto" />
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
