@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { api, Vault, VaultStatus } from '@/lib/api';
 import { signAndBreakVault } from '@/lib/freighter';
-import { formatMoney, formatDate, iconFor } from '@/lib/format';
+import { formatMoney, formatDate } from '@/lib/format';
+import { CategoryIcon } from '@/components/common/CategoryIcon';
 import { BreakVaultModal } from '@/components/plans/BreakVaultModal';
 import { ArrowLeft, Lock, Unlock, Zap, Calendar, ShieldCheck } from 'lucide-react';
 
@@ -40,7 +41,6 @@ export default function VaultDetailPage() {
 
   const locked = vault.status === VaultStatus.LOCKED;
   const isBill = vault.planType === 'BILL';
-  const icon = iconFor(vault.category, vault.budgetPlan?.icon);
 
   return (
     <>
@@ -54,9 +54,9 @@ export default function VaultDetailPage() {
         <div className="rounded-2xl p-8 mb-6 relative overflow-hidden"
           style={locked ? { background: 'rgb(var(--accent-rgb) / 0.1)', border: '1px solid rgb(var(--accent-rgb))' } : { background: 'rgb(var(--surface-rgb))', border: '1px solid rgb(var(--border-rgb))' }}>
           <div className="flex items-start gap-5 relative z-10">
-            <div className="w-16 h-16 rounded-2xl grid place-items-center text-3xl flex-shrink-0"
+            <div className="w-16 h-16 rounded-2xl grid place-items-center flex-shrink-0"
               style={locked ? { background: 'rgb(var(--accent-rgb) / 0.15)', border: '1px solid rgb(var(--accent-rgb) / 0.3)' } : { background: 'rgb(var(--surface-2-rgb))', border: '1px solid rgb(var(--border-rgb))' }}>
-              {icon}
+              <CategoryIcon category={vault.category} size={36} />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>{vault.name}</h1>

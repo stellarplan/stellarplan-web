@@ -36,8 +36,8 @@ export default function LoginPage() {
       <div className="hidden md:flex md:w-[45%] p-12 flex-col justify-between relative overflow-hidden bg-surface border-r border-border">
         <div className="relative z-10">
           <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl grid place-items-center bg-accent">
-              <Logo size={17} className="text-black" />
+            <div className="w-11 h-11 rounded-xl grid place-items-center bg-accent/10 border border-accent/30">
+              <Logo size={24} className="text-accent" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: 'hsl(var(--foreground))' }}>
               Stellar<span style={{ color: 'rgb(var(--accent-rgb))' }}>Plan</span>
@@ -80,8 +80,8 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-6 md:p-14">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-md w-full space-y-8">
           <div className="md:hidden flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl grid place-items-center bg-accent">
-              <Logo size={17} className="text-black" />
+            <div className="w-11 h-11 rounded-xl grid place-items-center bg-accent/10 border border-accent/30">
+              <Logo size={24} className="text-accent" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: 'hsl(var(--foreground))' }}>
               Stellar<span style={{ color: 'rgb(var(--accent-rgb))' }}>Plan</span>

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Plan } from '@/lib/api';
 import { formatMoney } from '@/lib/format';
+import { CategoryIcon } from '@/components/common/CategoryIcon';
 import { Lock, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export interface AllocationAnimationProps {
@@ -83,9 +84,9 @@ export function AllocationAnimation({ salary, plans, onComplete }: AllocationAni
                 style={{ background: 'rgb(var(--surface-rgb))', border: '1px solid rgb(var(--border-rgb))' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl grid place-items-center text-xl"
+                  <div className="w-10 h-10 rounded-xl grid place-items-center"
                     style={{ background: 'rgb(var(--surface-2-rgb))', border: '1px solid rgb(var(--border-rgb))' }}>
-                    {plan.icon ?? '📦'}
+                    <CategoryIcon category={plan.category} size={22} />
                   </div>
                   <div className="text-left">
                     <p className="font-bold text-sm" style={{ color: 'hsl(var(--foreground))' }}>{plan.name}</p>

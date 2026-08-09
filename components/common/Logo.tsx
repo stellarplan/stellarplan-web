@@ -2,10 +2,10 @@
  * StellarPlan brand mark — an oblique "E" built from three right-leaning bars.
  *
  * Vector reconstruction of the project logo so it stays razor-sharp at every
- * size and needs no raster asset. Fill is `currentColor`, so it inherits the
- * surrounding text color (e.g. `text-black` inside the emerald brand chip, or
- * `text-accent-text` on a dark surface) — a drop-in replacement anywhere the
- * old star icon was used.
+ * size and needs no raster asset. Fill is `currentColor`; the mark defaults to
+ * the brand emerald (`text-accent`) so it always renders green — matching the
+ * favicon — and stays legible in both light and dark themes. Pass `className`
+ * to recolor it for a specific surface.
  */
 
 type LogoProps = {
@@ -24,7 +24,7 @@ export function Logo({ size = 24, className, title }: LogoProps) {
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={className ?? 'text-accent'}
       role={title ? 'img' : undefined}
       aria-hidden={title ? undefined : true}
       aria-label={title}

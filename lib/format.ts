@@ -27,20 +27,27 @@ export function formatRelative(iso: string): string {
   return formatDate(iso);
 }
 
-export const PLAN_ICONS: Record<string, string> = {
-  rent: '🏠', house: '🏠', housing: '🏠',
-  electricity: '⚡', power: '⚡', energy: '⚡',
-  water: '💧', utility: '💧',
-  internet: '📶', wifi: '📶', broadband: '📶',
-  school: '🎓', tuition: '🎓', education: '🎓',
-  transport: '🚌', commute: '🚌', travel: '🚌',
-  groceries: '🛒', food: '🛒',
-  emergency: '🛡', insurance: '🛡', health: '🛡',
-  savings: '🌱', invest: '🌱', family: '❤️',
+/**
+ * Maps a plan category to one of the bundled PNG icons in /public/icons.
+ * Synonyms fold onto the same icon so custom category names still resolve.
+ */
+export const CATEGORY_ICONS: Record<string, string> = {
+  rent: '/icons/rent.png', house: '/icons/rent.png', housing: '/icons/rent.png',
+  electricity: '/icons/electricity.png', power: '/icons/electricity.png', energy: '/icons/electricity.png',
+  water: '/icons/water.png', utility: '/icons/water.png',
+  internet: '/icons/internet.png', wifi: '/icons/internet.png', broadband: '/icons/internet.png',
+  school: '/icons/school.png', tuition: '/icons/school.png', education: '/icons/school.png', fees: '/icons/school.png',
+  transport: '/icons/transport.png', commute: '/icons/transport.png', travel: '/icons/transport.png', bus: '/icons/transport.png',
+  groceries: '/icons/groceries.png', food: '/icons/groceries.png',
+  emergency: '/icons/emergency.png', insurance: '/icons/emergency.png', health: '/icons/emergency.png',
+  savings: '/icons/savings.png', invest: '/icons/savings.png', family: '/icons/savings.png',
 };
 
-export function iconFor(category: string, custom?: string | null): string {
-  if (custom && custom.length > 0) return custom;
-  const key = category.toLowerCase();
-  return PLAN_ICONS[key] ?? '📦';
+/** Neutral fallback icon for categories with no dedicated artwork. */
+export const FALLBACK_ICON = '/icons/savings.png';
+
+/** Resolve the icon path for a category (case-insensitive), with a safe fallback. */
+export function categoryIconSrc(category: string): string {
+  const key = (category ?? '').toLowerCase().trim();
+  return CATEGORY_ICONS[key] ?? FALLBACK_ICON;
 }

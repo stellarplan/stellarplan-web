@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api, Dashboard, Vault, VaultStatus } from '@/lib/api';
-import { formatMoney, formatRelative, iconFor } from '@/lib/format';
+import { formatMoney, formatRelative } from '@/lib/format';
 import { VaultCard } from '@/components/plans/VaultCard';
+import { CategoryIcon } from '@/components/common/CategoryIcon';
 import { AllocationAnimation } from '@/components/plans/AllocationAnimation';
 import { NumberTicker } from '@/components/common/NumberTicker';
 import { FadeIn } from '@/components/common/FadeIn';
@@ -235,8 +236,8 @@ export default function DashboardPage() {
             {upcoming.map((v) => (
               <div key={v.id} className="rounded-2xl px-5 py-4 flex items-center justify-between bg-surface border border-border">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl grid place-items-center text-xl bg-surface-2">
-                    {iconFor(v.category, v.budgetPlan?.icon)}
+                  <div className="w-10 h-10 rounded-xl grid place-items-center bg-surface-2">
+                    <CategoryIcon category={v.category} size={22} />
                   </div>
                   <div>
                     <p className="font-semibold text-sm text-foreground">{v.name}</p>

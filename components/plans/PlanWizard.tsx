@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlanType } from '@/lib/api';
-import { Shield, Lock, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Shield, Lock, ArrowRight, ArrowLeft, Home, PiggyBank } from 'lucide-react';
+import { CategoryIcon } from '@/components/common/CategoryIcon';
 
 export interface NewPlan {
   name: string;
@@ -19,16 +20,16 @@ interface Props {
   onCancel(): void;
 }
 
-const PRESETS: Array<{ label: string; category: string; icon: string }> = [
-  { label: 'House Rent', category: 'rent', icon: '🏠' },
-  { label: 'Electricity', category: 'electricity', icon: '⚡' },
-  { label: 'Water', category: 'water', icon: '💧' },
-  { label: 'Internet', category: 'internet', icon: '📶' },
-  { label: 'School Fees', category: 'school', icon: '🎓' },
-  { label: 'Transport', category: 'transport', icon: '🚌' },
-  { label: 'Groceries', category: 'groceries', icon: '🛒' },
-  { label: 'Emergency Fund', category: 'emergency', icon: '🛡️' },
-  { label: 'Savings', category: 'savings', icon: '🌱' },
+const PRESETS: Array<{ label: string; category: string }> = [
+  { label: 'House Rent', category: 'rent' },
+  { label: 'Electricity', category: 'electricity' },
+  { label: 'Water', category: 'water' },
+  { label: 'Internet', category: 'internet' },
+  { label: 'School Fees', category: 'school' },
+  { label: 'Transport', category: 'transport' },
+  { label: 'Groceries', category: 'groceries' },
+  { label: 'Emergency Fund', category: 'emergency' },
+  { label: 'Savings', category: 'savings' },
 ];
 
 const STEPS = ['Category', 'Amount', 'Unlock'] as const;
@@ -37,7 +38,6 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
-  const [icon, setIcon] = useState('📦');
   const [amount, setAmount] = useState('');
   const [unlockDay, setUnlockDay] = useState('28');
   const [planType, setPlanType] = useState<PlanType>('BILL');
@@ -99,10 +99,9 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
                     onClick={() => {
                       setName(p.label);
                       setCategory(p.category);
-                      setIcon(p.icon);
                     }}
                   >
-                    <span className="text-2xl mb-0.5">{p.icon}</span>
+                    <span className="mb-0.5"><CategoryIcon category={p.category} size={30} /></span>
                     <span className="line-clamp-1 font-semibold">{p.label}</span>
                   </button>
                 );
@@ -120,7 +119,7 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
           <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="space-y-6">
             <div>
               <div className="flex items-center gap-2.5 mb-1">
-                <span className="text-3xl">{icon}</span>
+                <CategoryIcon category={category} size={32} />
                 <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>{name}</h2>
               </div>
               <p className="text-xs text-muted">Set the exact monthly amount to auto-lock upon salary deposit.</p>
@@ -157,7 +156,9 @@ export function PlanWizard({ onComplete, onCancel }: Props) {
                       className="rounded-2xl p-3 text-center transition-all"
                       style={selected ? { background: 'rgb(var(--accent-rgb))', color: '#000000', border: '1px solid rgb(var(--accent-rgb))' } : { background: 'rgb(var(--surface-2-rgb))', color: 'hsl(var(--foreground))', border: '1px solid rgb(var(--border-rgb))' }}
                     >
-                      <div className="text-xl mb-1">{t === 'BILL' ? '🏠' : t === 'EMERGENCY' ? '🛡️' : '🌱'}</div>
+                      <div className="grid place-items-center mb-1">
+                        {t === 'BILL' ? <Home size={20} /> : t === 'EMERGENCY' ? <Shield size={20} /> : <PiggyBank size={20} />}
+                      </div>
                       <div className="text-xs font-bold">{t === 'BILL' ? 'Monthly Bill' : t === 'EMERGENCY' ? 'Emergency' : 'Savings'}</div>
                     </button>
                   );

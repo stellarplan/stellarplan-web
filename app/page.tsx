@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Shield, Zap, Lock, ArrowRight, CheckCircle2, Wallet, Layers, CalendarClock, ShieldCheck, KeyRound, Fingerprint, Unlock } from 'lucide-react';
 import Logo from '@/components/common/Logo';
+import { CategoryIcon } from '@/components/common/CategoryIcon';
 import ThemeToggle from '@/components/common/ThemeToggle';
 import { Reveal, Stagger, StaggerItem } from '@/components/common/FadeIn';
 
@@ -15,8 +16,8 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 glass-panel border-0 border-b rounded-none">
         <div className="max-w-6xl mx-auto px-6 h-18 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl grid place-items-center bg-accent transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
-              <Logo size={18} className="text-black" />
+            <div className="w-11 h-11 rounded-xl grid place-items-center bg-accent/10 border border-accent/30 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3">
+              <Logo size={26} className="text-accent" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', color: 'hsl(var(--foreground))' }}>
               Stellar<span style={{ color: 'rgb(var(--accent-rgb))' }}>Plan</span>
@@ -131,13 +132,13 @@ export default function LandingPage() {
                 {/* Vaults */}
                 <div className="space-y-2.5">
                   {[
-                    { emoji: '🏠', name: 'House Rent', amount: '$850.00', color: 'rgb(var(--accent-rgb))' },
-                    { emoji: '⚡', name: 'Electricity', amount: '$150.00', color: 'rgb(var(--accent-rgb))' },
-                    { emoji: '🛡️', name: 'Emergency Vault', amount: '$500.00', color: 'rgb(var(--danger-rgb))' },
+                    { category: 'rent', name: 'House Rent', amount: '$850.00', color: 'rgb(var(--accent-rgb))' },
+                    { category: 'electricity', name: 'Electricity', amount: '$150.00', color: 'rgb(var(--accent-rgb))' },
+                    { category: 'emergency', name: 'Emergency Vault', amount: '$500.00', color: 'rgb(var(--danger-rgb))' },
                   ].map((v) => (
                     <div key={v.name} className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm bg-surface-2 border border-border">
                       <div className="flex items-center gap-2.5">
-                        <span className="text-base">{v.emoji}</span>
+                        <CategoryIcon category={v.category} size={18} />
                         <span className="font-semibold text-xs text-foreground">{v.name}</span>
                       </div>
                       <span className="font-mono font-bold text-xs" style={{ color: v.color }}>{v.amount}</span>
@@ -289,8 +290,8 @@ export default function LandingPage() {
       <footer className="mt-auto py-10 border-t border-border bg-background">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-muted-2">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg grid place-items-center bg-accent text-black">
-              <Logo size={13} className="text-black" />
+            <div className="w-9 h-9 rounded-lg grid place-items-center bg-accent/10 border border-accent/30 text-accent">
+              <Logo size={20} className="text-accent" />
             </div>
             <span className="font-bold text-foreground">StellarPlan</span>
             <span>—</span>

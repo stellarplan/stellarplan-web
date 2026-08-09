@@ -1,7 +1,8 @@
 'use client';
 
 import { Vault, VaultStatus } from '@/lib/api';
-import { iconFor, formatMoney, formatDate } from '@/lib/format';
+import { formatMoney, formatDate } from '@/lib/format';
+import { CategoryIcon } from '@/components/common/CategoryIcon';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -17,7 +18,6 @@ interface Props { vault: Vault; big?: boolean; }
 
 export function VaultCard({ vault, big }: Props) {
   const locked = vault.status === VaultStatus.LOCKED;
-  const icon = iconFor(vault.category, vault.budgetPlan?.icon);
   const statusStyle = STATUS_STYLE[vault.status];
 
   return (
@@ -34,8 +34,8 @@ export function VaultCard({ vault, big }: Props) {
         {/* Top row */}
         <div className="flex items-start justify-between relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl grid place-items-center text-2xl bg-surface-2 border border-border">
-              {icon}
+            <div className="w-12 h-12 rounded-2xl grid place-items-center bg-surface-2 border border-border">
+              <CategoryIcon category={vault.category} size={26} />
             </div>
             <div>
               <h3 className="font-bold text-base leading-tight text-foreground group-hover:text-accent-text transition-colors"

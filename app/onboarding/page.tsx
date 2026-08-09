@@ -26,8 +26,8 @@ export default function OnboardingPage() {
       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
         className="max-w-md w-full space-y-7 rounded-3xl p-8 bg-surface border border-border shadow-2xl">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl grid place-items-center bg-accent">
-            <Logo size={19} className="text-black" />
+          <div className="w-12 h-12 rounded-xl grid place-items-center bg-accent/10 border border-accent/30">
+            <Logo size={28} className="text-accent" />
           </div>
           <div>
             <h1 className="font-bold text-xl text-foreground" style={{ fontFamily: 'var(--font-display)' }}>You&apos;re connected</h1>

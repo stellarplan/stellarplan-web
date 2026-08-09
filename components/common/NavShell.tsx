@@ -34,8 +34,8 @@ export function NavShell({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div className="px-6 py-6 mb-2">
           <Link href="/dashboard" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-xl grid place-items-center bg-accent">
-              <Logo size={15} className="text-black" />
+            <div className="w-10 h-10 rounded-xl grid place-items-center bg-accent/10 border border-accent/30">
+              <Logo size={24} className="text-accent" />
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.02em', color: 'hsl(var(--foreground))' }}>
               Stellar<span style={{ color: 'rgb(var(--accent-rgb))' }}>Plan</span>
