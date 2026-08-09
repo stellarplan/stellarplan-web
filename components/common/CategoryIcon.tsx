@@ -19,7 +19,7 @@ export function CategoryIcon({ category, size = 26, className }: Props) {
       alt={`${category} icon`}
       width={size}
       height={size}
-      className={className}
+      className={className ? `category-icon ${className}` : 'category-icon'}
       style={{ width: size, height: size, objectFit: 'contain' }}
       draggable={false}
     />

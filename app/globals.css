@@ -253,6 +253,12 @@
   .shimmer-text { color: rgb(var(--accent-rgb)); }
   .star-field { display: none; }
 
+  /* Category glyphs are solid-black monochrome PNGs: perfect on light
+     surfaces, invisible on dark ones. Invert them to white under the dark
+     theme so they stay legible in both modes. */
+  .category-icon { filter: none; }
+  .dark .category-icon { filter: invert(1); }
+
   /* Entrance animations — spring-eased, GPU-friendly */
   .animate-fade-up { animation: fade-up .6s cubic-bezier(0.22,1,0.36,1) both; }
   .animate-scale-in { animation: scale-in .5s cubic-bezier(0.22,1,0.36,1) both; }
