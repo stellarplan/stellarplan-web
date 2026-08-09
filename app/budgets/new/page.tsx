@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import { api, clearSnapshots } from '@/lib/api';
 import { PlanWizard, NewPlan } from '@/components/plans/PlanWizard';
 
 export default function NewPlanPage() {
@@ -21,7 +21,8 @@ export default function NewPlanPage() {
         unlockDay: plan.unlockDay,
         planType: plan.planType,
       } as any);
-      router.push('/dashboard');
+      clearSnapshots(); // force Plans/Dashboard to re-fetch so the new plan appears
+      router.push('/plans');
     } catch (err: any) {
       setError(err.message ?? 'Unable to create plan.');
     } finally {
