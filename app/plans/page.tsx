@@ -77,7 +77,8 @@ export default function PlansPage() {
       {/* Empty */}
       {!loading && filtered.length === 0 && (
         <div className="rounded-2xl text-center py-16 space-y-4 bg-surface border border-border">
-          <div className="text-4xl">🔍</div>
+          <img src="/icons/search.png" alt="" width={40} height={40} draggable={false}
+            className="category-icon mx-auto" style={{ width: 40, height: 40, objectFit: 'contain' }} />
           <p className="text-sm text-muted">No plans match your search.</p>
           <button onClick={() => { setSearch(''); setFilter('ALL'); }}
             className="text-xs font-bold hover:underline text-accent-text">

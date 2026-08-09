@@ -57,7 +57,8 @@ export default function ActivityPage() {
 
       {!loading && filtered.length === 0 && (
         <div className="rounded-2xl text-center py-16 space-y-2 bg-surface border border-border">
-          <div className="text-3xl">📜</div>
+          <img src="/icons/scroll.png" alt="" width={36} height={36} draggable={false}
+            className="category-icon mx-auto mb-2" style={{ width: 36, height: 36, objectFit: 'contain' }} />
           <p className="text-sm text-muted">No activity recorded yet.</p>
         </div>
       )}
