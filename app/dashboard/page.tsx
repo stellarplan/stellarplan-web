@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { api, Dashboard, Vault, VaultStatus } from '@/lib/api';
+import { api, Dashboard, Vault, VaultStatus, cachedSnapshot, rememberSnapshot } from '@/lib/api';
 import { formatMoney, formatRelative } from '@/lib/format';
 import { VaultCard } from '@/components/plans/VaultCard';
 import { CategoryIcon } from '@/components/common/CategoryIcon';
 import { AllocationAnimation } from '@/components/plans/AllocationAnimation';
 import { NumberTicker } from '@/components/common/NumberTicker';
 import { FadeIn } from '@/components/common/FadeIn';
+import { DashboardSkeleton } from '@/components/common/DashboardSkeleton';
 import { Plus, RefreshCw, Wallet, Zap, Shield, ArrowUpRight, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function DashboardPage() {
-  const [data, setData] = useState<Dashboard | null>(null);
+  const [data, setData] = useState<Dashboard | null>(() => cachedSnapshot<Dashboard>('dashboard') ?? null);
   const [allocating, setAllocating] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [loadError, setLoadError] = useState('');
@@ -21,7 +22,7 @@ export default function DashboardPage() {
   useEffect(() => { loadDashboard(); }, []);
 
   async function loadDashboard() {
-    try { setData(await api.dashboard()); }
+    try { setData(rememberSnapshot('dashboard', await api.dashboard())); }
     catch (err: any) { setLoadError(err.message ?? 'Unable to load dashboard'); }
   }
 
@@ -43,14 +44,7 @@ export default function DashboardPage() {
     </div>
   );
 
-  if (!data) return (
-    <div className="p-8 text-center py-20 text-muted">
-      <div className="inline-flex items-center gap-3">
-        <div className="w-5 h-5 rounded-full border-2 border-accent-line border-t-emerald-500 animate-spin" />
-        Loading StellarPlan…
-      </div>
-    </div>
-  );
+  if (!data) return <DashboardSkeleton />;
 
   const { user, balances, plans, vaults, recentTransactions } = data;
   const activeVaults = vaults.filter((v) => v.status === VaultStatus.LOCKED);

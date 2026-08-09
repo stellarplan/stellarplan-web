@@ -101,6 +101,28 @@ export function setTokens(t: Tokens | null) {
 }
 
 /* ------------------------------------------------------------------ */
+/* In-memory snapshot cache (stale-while-revalidate)                    */
+/* ------------------------------------------------------------------ */
+/* Keeps the last successful payload for a screen so returning to it
+   renders instantly from memory while fresh data is fetched in the
+   background — instead of showing a spinner on every visit. Cleared on
+   a full page reload (that's fine: the skeleton covers the cold load). */
+const snapshots = new Map<string, unknown>();
+
+export function cachedSnapshot<T>(key: string): T | undefined {
+  return snapshots.get(key) as T | undefined;
+}
+
+export function rememberSnapshot<T>(key: string, value: T): T {
+  snapshots.set(key, value);
+  return value;
+}
+
+export function clearSnapshots() {
+  snapshots.clear();
+}
+
+/* ------------------------------------------------------------------ */
 /* Low-level fetch with auto-refresh                                    */
 /* ------------------------------------------------------------------ */
 async function raw<T>(path: string, init: RequestInit = {}, auth = true): Promise<T> {
