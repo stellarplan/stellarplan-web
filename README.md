@@ -2,6 +2,8 @@
 
 > The StellarPlan frontend — connect Freighter, and when your salary arrives the app puts rent, bills, and savings into protected on-chain plans, leaving only what you can safely spend.
 
+[📚 Documentation](https://stellarplan.gitbook.io/stellarplan-docs/)
+
 <p align="center"><em>Next.js 15 · Freighter wallet sign-in · built for the Drips Stellar Wave program (testnet)</em></p>
 
 [![CI](https://github.com/stellarplan/stellarplan-web/actions/workflows/ci.yml/badge.svg)](https://github.com/stellarplan/stellarplan-web/actions/workflows/ci.yml)
