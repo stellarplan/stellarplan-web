@@ -88,8 +88,18 @@ let cached: Tokens | null = null;
 export function getTokens(): Tokens | null {
   if (cached) return cached;
   if (typeof window === 'undefined') return null;
-  const raw = localStorage.getItem('sp_tokens');
-  cached = raw ? JSON.parse(raw) : null;
+  try {
+    const raw = localStorage.getItem('sp_tokens');
+    const parsed = raw ? JSON.parse(raw) : null;
+    // Anything that is not a well-formed token pair counts as signed out.
+    cached =
+      parsed && typeof parsed.accessToken === 'string' && typeof parsed.refreshToken === 'string'
+        ? parsed
+        : null;
+  } catch {
+    // Corrupted storage or storage blocked by the browser: start signed out.
+    cached = null;
+  }
   return cached;
 }
 
@@ -125,31 +135,62 @@ export function clearSnapshots() {
 /* ------------------------------------------------------------------ */
 /* Low-level fetch with auto-refresh                                    */
 /* ------------------------------------------------------------------ */
+
+/**
+ * Only one refresh may run at a time. The API rotates refresh tokens, so a
+ * second refresh with the same token fails. Without sharing, several requests
+ * that expire together (the dashboard fires many) would race and the losers
+ * would sign the user out.
+ */
+let refreshInFlight: Promise<Tokens | null> | null = null;
+
+function refreshTokens(refreshToken: string): Promise<Tokens | null> {
+  if (!refreshInFlight) {
+    refreshInFlight = (async () => {
+      try {
+        const res = await fetch(`${API}/auth/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken }),
+        });
+        return res.ok ? ((await res.json()) as Tokens) : null;
+      } catch {
+        return null;
+      }
+    })().finally(() => {
+      refreshInFlight = null;
+    });
+  }
+  return refreshInFlight;
+}
+
 async function raw<T>(path: string, init: RequestInit = {}, auth = true): Promise<T> {
   const headers = new Headers(init.headers);
   headers.set('Content-Type', 'application/json');
 
   if (auth) {
-    let tokens = getTokens();
+    const tokens = getTokens();
     if (tokens?.accessToken) headers.set('Authorization', `Bearer ${tokens.accessToken}`);
 
     let res = await fetch(`${API}${path}`, { ...init, headers });
 
     if (res.status === 401 && tokens?.refreshToken) {
-      const refreshed = await fetch(`${API}/auth/refresh`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken: tokens.refreshToken }),
-      });
-      if (refreshed.ok) {
-        const next = await refreshed.json();
-        setTokens(next);
-        headers.set('Authorization', `Bearer ${next.accessToken}`);
-        res = await fetch(`${API}${path}`, { ...init, headers });
-      } else {
+      // Another request may already have refreshed while this one was in
+      // flight. If so, just retry with the newer token instead of refreshing
+      // again with a refresh token that has already been used.
+      const current = getTokens();
+      let next: Tokens | null =
+        current && current.accessToken !== tokens.accessToken ? current : null;
+      if (!next) {
+        next = await refreshTokens(tokens.refreshToken);
+        if (next) setTokens(next);
+      }
+      if (!next) {
         setTokens(null);
         throw new ApiError(401, 'Session expired');
       }
+      headers.set('Authorization', `Bearer ${next.accessToken}`);
+      res = await fetch(`${API}${path}`, { ...init, headers });
     }
 
     return handle<T>(res);
