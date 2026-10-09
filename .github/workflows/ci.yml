@@ -1,7 +1,7 @@
 name: CI
 
 # Runs on every push and pull request targeting main.
-# The job names below (build, lint) are stable identifiers — use them as the
+# The job names below (build, lint, test, typecheck) are stable identifiers — use them as the
 # "required status checks" when configuring branch protection on main.
 on:
   push:
@@ -44,3 +44,31 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run lint
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Unit tests
+        run: npm test
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Type check
+        run: npm run typecheck

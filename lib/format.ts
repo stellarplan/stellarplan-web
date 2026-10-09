@@ -1,5 +1,7 @@
 export function formatMoney(value: number | string, currency = 'USDC'): string {
-  const n = typeof value === 'string' ? parseFloat(value) : value;
+  const parsed = typeof value === 'string' ? parseFloat(value) : value;
+  // Bad input (empty string, "abc", NaN, Infinity) must never render as "$NaN".
+  const n = Number.isFinite(parsed) ? parsed : 0;
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -10,13 +12,16 @@ export function formatMoney(value: number | string, currency = 'USDC'): string {
 
 export function formatDate(iso: string | null | undefined): string {
   if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('en-US', {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return '—';
+  return date.toLocaleDateString('en-US', {
     month: 'short', day: 'numeric', year: 'numeric',
   });
 }
 
 export function formatRelative(iso: string): string {
   const ms = Date.now() - new Date(iso).getTime();
+  if (Number.isNaN(ms)) return '—';
   const min = Math.floor(ms / 60_000);
   if (min < 1) return 'just now';
   if (min < 60) return `${min}m ago`;

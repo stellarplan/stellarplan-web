@@ -128,15 +128,31 @@ components/
 ├── plans/         # VaultCard, PlanWizard, BreakVaultModal, AllocationAnimation
 └── common/        # AppShell (auth guard), NavShell (mobile/desktop nav), NumberTicker
 lib/
-├── api.ts         # Typed API client with token refresh
+├── api.ts         # Typed API client with shared, single-flight token refresh
+├── freighter.ts   # Freighter wallet login and signed-action helpers
 └── format.ts      # Money, date, icon helpers
+tests/             # Vitest unit tests for lib/
 ```
 
 ## CI
 
 Every push and pull request to `main` runs the [CI workflow](./.github/workflows/ci.yml):
-a `build` job (`npm run build`) and a `lint` job (`npm run lint`). Use `build`
-and `lint` as required status checks for branch protection on `main`.
+four jobs: `build` (`npm run build`), `lint` (`npm run lint`), `test`
+(`npm test`, 50 Vitest tests), and `typecheck` (`npm run typecheck`). Use these
+names as required status checks for branch protection on `main`.
+
+## Testing
+
+```bash
+npm test            # run the unit tests once
+npx vitest          # watch mode
+npm run typecheck   # tsc --noEmit
+```
+
+The tests cover the API client (token storage, one shared refresh when several
+requests expire together, error handling), the Freighter login and break-plan
+flows (with the wallet mocked), and the formatting helpers. See
+[CHANGELOG.md](./CHANGELOG.md).
 
 ## Related repositories
 
